@@ -10,6 +10,6 @@ namespace API.DTOs
     public PlaceLocationDTO Location { get; set; } = new();
     public PlaceContact Contact { get; set; } = new();
     public List<string> Gates { get; set; } = [];
-    public List<string> Turnstile { get; set; } = [];
+    public List<string> Turnstiles { get; set; } = [];
   }
 }

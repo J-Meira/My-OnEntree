@@ -10,7 +10,7 @@ namespace API.Entities
     public PlaceLocation Location { get; set; } = new();
     public PlaceContact Contact { get; set; } = new();
     public List<string> Gates { get; set; } = [];
-    public List<string> Turnstile { get; set; } = [];
+    public List<string> Turnstiles { get; set; } = [];
 
     public void Update(PlaceRecordDTO dto, string updatedBy)
     {
@@ -23,7 +23,7 @@ namespace API.Entities
       Contact.Phone = dto.Contact.Phone;
       Contact.Email = dto.Contact.Email;
       Gates = dto.Gates;
-      Turnstile = dto.Turnstile;
+      Turnstiles = dto.Turnstiles;
       UpdatedAt = DateTime.UtcNow;
       UpdatedBy = updatedBy;
     }

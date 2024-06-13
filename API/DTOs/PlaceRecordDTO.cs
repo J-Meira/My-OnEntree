@@ -11,7 +11,7 @@ namespace API.DTOs
     public PlaceRecordLocationDTO Location { get; set; }
     public PlaceContact Contact { get; set; }
     public List<string> Gates { get; set; }
-    public List<string> Turnstile { get; set; }
+    public List<string> Turnstiles { get; set; }
     public PlaceRecordDTO(
       string name,
       string nickname,
@@ -20,7 +20,7 @@ namespace API.DTOs
       PlaceRecordLocationDTO location,
       PlaceContact contact,
       List<string> gates,
-      List<string> turnstile
+      List<string> turnstiles
     )
     {
       Name = name;
@@ -30,7 +30,7 @@ namespace API.DTOs
       Location = location;
       Contact = contact;
       Gates = gates;
-      Turnstile = turnstile;
+      Turnstiles = turnstiles;
       Validate();
     }
 
@@ -55,7 +55,7 @@ namespace API.DTOs
         .IsNotNullOrEmpty(Contact.Email, "Contact.email", "Preenchimento Obrigatório")
         .IsEmail(Contact.Email, "Contact.email", "Email Inválido")
         .IsGreaterThan(Gates, 0, "Gates", "Deve ter pelo menos uma entrada")
-        .IsGreaterThan(Turnstile, 0, "Turnstile", "Deve ter pelo menos uma catraca");
+        .IsGreaterThan(Turnstiles, 0, "Turnstiles", "Deve ter pelo menos uma catraca");
 
       AddNotifications(contract);
     }

@@ -13,6 +13,12 @@ namespace API.Helpers
           options.MapFrom(source => source.State.Id));
       CreateMap<CityDTO, City>();
       CreateMap<User, UserDTO>();
+      CreateMap<PlaceRecordDTO, Place>();
+      CreateMap<PlaceRecordLocationDTO, PlaceLocation>();
+      CreateMap<Place, PlaceDTO>();
+      CreateMap<PlaceLocation, PlaceLocationDTO>()
+        .IncludeMembers(x => x.City);
+      CreateMap<City, PlaceLocationDTO>();
     }
   }
 }

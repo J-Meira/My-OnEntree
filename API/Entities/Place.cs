@@ -11,5 +11,21 @@ namespace API.Entities
     public PlaceContact Contact { get; set; } = new();
     public List<string> Gates { get; set; } = [];
     public List<string> Turnstile { get; set; } = [];
+
+    public void Update(PlaceRecordDTO dto, string updatedBy)
+    {
+      Name = dto.Name;
+      Nickname = dto.Nickname;
+      Document = dto.Document;
+      Location.Address = dto.Location.Address;
+      Location.PostalCode = dto.Location.PostalCode;
+      Location.Complement = dto.Location.Complement;
+      Contact.Phone = dto.Contact.Phone;
+      Contact.Email = dto.Contact.Email;
+      Gates = dto.Gates;
+      Turnstile = dto.Turnstile;
+      UpdatedAt = DateTime.UtcNow;
+      UpdatedBy = updatedBy;
+    }
   }
 }

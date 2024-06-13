@@ -20,10 +20,22 @@ namespace API.Data
       .HasForeignKey<PlaceContact>(a => a.Id)
       .OnDelete(DeleteBehavior.Cascade);
 
+      builder.Entity<Place>()
+      .HasOne(a => a.Location)
+      .WithOne()
+      .HasForeignKey<PlaceLocation>(a => a.Id)
+      .OnDelete(DeleteBehavior.Cascade);
+
       builder.Entity<Event>()
       .HasOne(a => a.Contact)
       .WithOne()
       .HasForeignKey<EventContact>(a => a.Id)
+      .OnDelete(DeleteBehavior.Cascade);
+
+      builder.Entity<Event>()
+      .HasOne(a => a.Schedule)
+      .WithOne()
+      .HasForeignKey<EventSchedule>(a => a.Id)
       .OnDelete(DeleteBehavior.Cascade);
 
       builder.Entity<Role>()

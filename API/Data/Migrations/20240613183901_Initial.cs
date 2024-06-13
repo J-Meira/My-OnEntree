@@ -199,6 +199,58 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_EventTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "EventTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Places",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false),
+                    Document = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Gates = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Turnstile = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Places", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Places_PlaceTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "PlaceTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -218,58 +270,20 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlaceLocations",
+                name: "EventContacts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PostalCode = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Complement = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlaceLocations", x => x.Id);
+                    table.PrimaryKey("PK_EventContacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlaceLocations_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Places",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Nickname = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    TypeId = table.Column<int>(type: "int", nullable: false),
-                    Document = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    Gates = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Turnstile = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Places", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Places_PlaceLocations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "PlaceLocations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Places_PlaceTypes_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "PlaceTypes",
+                        name: "FK_EventContacts_Events_Id",
+                        column: x => x.Id,
+                        principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -278,8 +292,7 @@ namespace API.Data.Migrations
                 name: "EventSchedules",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     PlaceId = table.Column<int>(type: "int", nullable: false),
                     StartAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -287,6 +300,12 @@ namespace API.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EventSchedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventSchedules_Events_Id",
+                        column: x => x.Id,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EventSchedules_Places_PlaceId",
                         column: x => x.PlaceId,
@@ -315,51 +334,28 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    TypeId = table.Column<int>(type: "int", nullable: false),
-                    ScheduleId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Events_EventSchedules_ScheduleId",
-                        column: x => x.ScheduleId,
-                        principalTable: "EventSchedules",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Events_EventTypes_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "EventTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EventContacts",
+                name: "PlaceLocations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                    PostalCode = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Complement = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventContacts", x => x.Id);
+                    table.PrimaryKey("PK_PlaceLocations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EventContacts_Events_Id",
+                        name: "FK_PlaceLocations_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlaceLocations_Places_Id",
                         column: x => x.Id,
-                        principalTable: "Events",
+                        principalTable: "Places",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -414,11 +410,6 @@ namespace API.Data.Migrations
                 column: "StateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_ScheduleId",
-                table: "Events",
-                column: "ScheduleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Events_TypeId",
                 table: "Events",
                 column: "TypeId");
@@ -432,11 +423,6 @@ namespace API.Data.Migrations
                 name: "IX_PlaceLocations_CityId",
                 table: "PlaceLocations",
                 column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Places_LocationId",
-                table: "Places",
-                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Places_TypeId",
@@ -466,7 +452,13 @@ namespace API.Data.Migrations
                 name: "EventContacts");
 
             migrationBuilder.DropTable(
+                name: "EventSchedules");
+
+            migrationBuilder.DropTable(
                 name: "PlaceContacts");
+
+            migrationBuilder.DropTable(
+                name: "PlaceLocations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -478,25 +470,19 @@ namespace API.Data.Migrations
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "EventSchedules");
-
-            migrationBuilder.DropTable(
-                name: "EventTypes");
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Places");
 
             migrationBuilder.DropTable(
-                name: "PlaceLocations");
-
-            migrationBuilder.DropTable(
-                name: "PlaceTypes");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
+                name: "EventTypes");
 
             migrationBuilder.DropTable(
                 name: "States");
+
+            migrationBuilder.DropTable(
+                name: "PlaceTypes");
         }
     }
 }

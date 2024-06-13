@@ -63,9 +63,6 @@ namespace API.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
@@ -78,8 +75,6 @@ namespace API.Data.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ScheduleId");
 
                     b.HasIndex("TypeId");
 
@@ -109,10 +104,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.EventSchedule", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("EndAt")
                         .HasColumnType("datetime2");
@@ -173,9 +165,6 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -202,8 +191,6 @@ namespace API.Data.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.HasIndex("TypeId");
 
@@ -233,10 +220,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.PlaceLocation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -543,19 +527,11 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Event", b =>
                 {
-                    b.HasOne("API.Entities.EventSchedule", "Schedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.EventType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Schedule");
 
                     b.Navigation("Type");
                 });
@@ -571,6 +547,12 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.EventSchedule", b =>
                 {
+                    b.HasOne("API.Entities.Event", null)
+                        .WithOne("Schedule")
+                        .HasForeignKey("API.Entities.EventSchedule", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API.Entities.Place", "Place")
                         .WithMany()
                         .HasForeignKey("PlaceId")
@@ -582,19 +564,11 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Place", b =>
                 {
-                    b.HasOne("API.Entities.PlaceLocation", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.PlaceType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Location");
 
                     b.Navigation("Type");
                 });
@@ -613,6 +587,12 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Place", null)
+                        .WithOne("Location")
+                        .HasForeignKey("API.Entities.PlaceLocation", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -674,11 +654,17 @@ namespace API.Data.Migrations
                 {
                     b.Navigation("Contact")
                         .IsRequired();
+
+                    b.Navigation("Schedule")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Entities.Place", b =>
                 {
                     b.Navigation("Contact")
+                        .IsRequired();
+
+                    b.Navigation("Location")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

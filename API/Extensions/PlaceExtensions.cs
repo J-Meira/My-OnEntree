@@ -34,6 +34,5 @@ namespace API.Extensions
 
       return query;
     }
-
   }
 }

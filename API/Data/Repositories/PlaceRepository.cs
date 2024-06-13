@@ -133,6 +133,8 @@ namespace API.Data.Repositories
     public async Task<TaskResult<int>> DeleteById(int id)
     {
       var record = await _context.Places
+        .Include(x => x.Location)
+        .Include(x => x.Contact)
         .Where(p => p.Id == id)
         .FirstOrDefaultAsync();
 

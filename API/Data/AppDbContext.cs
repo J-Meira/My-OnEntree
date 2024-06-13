@@ -50,6 +50,14 @@ namespace API.Data
       builder.Entity<State>()
         .Property(e => e.Id)
         .ValueGeneratedNever();
+
+      builder.Entity<State>()
+        .Property(p => p.Abbreviation)
+        .HasMaxLength(5);
+
+      builder.Entity<PlaceLocation>()
+        .Property(p => p.Address)
+        .HasMaxLength(255);
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
@@ -57,9 +65,6 @@ namespace API.Data
       configurationBuilder
         .Properties<string>()
         .HaveMaxLength(150);
-
-
     }
-
   }
 }

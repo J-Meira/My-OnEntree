@@ -121,10 +121,7 @@ namespace API.Data.Repositories
       }
       record.Type = placeType;
 
-      if (!_context.ChangeTracker.HasChanges())
-      {
-        return new TaskResult<int>(id);
-      }
+      record.Update(dto, userName);
 
       var result = await _context.SaveChangesAsync() > 0;
 

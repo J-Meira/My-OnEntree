@@ -19,6 +19,12 @@ namespace API.Helpers
       CreateMap<PlaceLocation, PlaceLocationDTO>()
         .IncludeMembers(x => x.City);
       CreateMap<City, PlaceLocationDTO>();
+      CreateMap<EventRecordDTO, Event>();
+      CreateMap<EventRecordScheduleDTO, EventSchedule>();
+      CreateMap<Event, EventDTO>();
+      CreateMap<EventSchedule, EventScheduleDTO>()
+        .IncludeMembers(x => x.Place);
+      CreateMap<Place, EventScheduleDTO>();
     }
   }
 }

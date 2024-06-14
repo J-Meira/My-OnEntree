@@ -4,6 +4,17 @@ namespace API.Data
 {
   public class DbInitializer
   {
+    private static List<string> GetList(int count, bool alpha)
+    {
+      var list = new List<string>();
+      var alphas = new List<string> { "A", "B", "C", "D", "E" };
+      for (int i = 0; i <= count; i++)
+      {
+        list.Add(alpha ? alphas[i] : (i + 1).ToString());
+      }
+      return list;
+    }
+
     public static async Task InitDb(WebApplication app)
     {
       var s3URL = app.Configuration.GetSection("S3URL").Value;
@@ -82,104 +93,151 @@ namespace API.Data
       {
         if (!context.Places.Any())
         {
-          var placesNames = new List<string> { "Morubis ", "Allianz Parque ", "Neo Química Arena ", "Audio Club " };
-          var turnstilesNames = new List<string> { "A", "B", "C", "D" };
-          var placeAddress = "R. Palestra Itália, 200 - Portão A - Água Branca";
-
-          var places = new List<Place>();
-          for (int i = 0; i < 20; i++)
+          var places = await httpClient.GetFromJsonAsync<List<Place>>(s3URL + "places.json");
+          if (places is not null)
           {
-            var iS = i.ToString();
-            var number = RandomNumberGenerator.GetInt32(3);
-            var quant = RandomNumberGenerator.GetInt32(10);
-            var city = await context.Cities.FindAsync(quant * 100 + 1);
-            var type = await context.PlaceTypes.FindAsync(number + 1);
-            if (city is not null && type is not null)
+            foreach (var item in places)
             {
-              var gates = new List<string>();
-              for (int j = 0; j <= quant; j++)
+              var city = await context.Cities
+                .Where(x => x.Name == item.Location.City.Name)
+                .FirstOrDefaultAsync();
+              var type = await context.PlaceTypes.FindAsync(item.Type.Id);
+              if (city is not null && type is not null)
               {
-                gates.Add((j + 1).ToString());
+                var number = RandomNumberGenerator.GetInt32(3);
+                var quant = RandomNumberGenerator.GetInt32(10);
+
+                item.Id = 0;
+                item.Location.Id = 0;
+                item.Contact.Id = 0;
+                item.UpdatedBy = masterName;
+                item.CreatedBy = masterName;
+                item.Type = type;
+                item.Location.City = city;
+                item.Gates = GetList(quant, false);
+                item.Turnstiles = GetList(number, true);
+
+                context.Places.Add(item);
               }
-              var turnstiles = new List<string>();
-              for (int j = 0; j <= number; j++)
-              {
-                turnstiles.Add(turnstilesNames[j]);
-              }
-              places.Add(
-                new Place
-                {
-                  Name = placesNames[number] + iS,
-                  Nickname = placesNames[number] + iS,
-                  Type = type,
-                  Document = "14150437000116",
-                  Location = new PlaceLocation
-                  {
-                    PostalCode = "89050000",
-                    City = city,
-                    Address = placeAddress,
-                  },
-                  Contact = new PlaceContact
-                  {
-                    Email = placesNames[number] + "jm.app.br",
-                    Phone = "47999999999"
-                  },
-                  Gates = gates,
-                  Turnstiles = turnstiles,
-                  CreatedBy = masterName,
-                  UpdatedBy = masterName
-                }
-              );
+
             }
           }
-          context.Places.AddRange(places);
+          else
+          {
+            var placesNames = new List<string> { "Morubis ", "Allianz Parque ", "Neo Química Arena ", "Audio Club " };
+            var placeAddress = "R. Palestra Itália, 200 - Portão A - Água Branca";
+
+            var placesMock = new List<Place>();
+            for (int i = 0; i < 20; i++)
+            {
+              var iS = i.ToString();
+              var number = RandomNumberGenerator.GetInt32(3);
+              var quant = RandomNumberGenerator.GetInt32(10);
+              var city = await context.Cities.FindAsync(quant * 100 + 1);
+              var type = await context.PlaceTypes.FindAsync(number + 1);
+              if (city is not null && type is not null)
+              {
+                placesMock.Add(
+                  new Place
+                  {
+                    Name = placesNames[number] + iS,
+                    Nickname = placesNames[number] + iS,
+                    Type = type,
+                    Document = "14150437000116",
+                    Location = new PlaceLocation
+                    {
+                      PostalCode = "89050000",
+                      City = city,
+                      Address = placeAddress,
+                    },
+                    Contact = new PlaceContact
+                    {
+                      Email = placesNames[number] + "jm.app.br",
+                      Phone = "47999999999"
+                    },
+                    Gates = GetList(quant, false),
+                    Turnstiles = GetList(number, true),
+                    CreatedBy = masterName,
+                    UpdatedBy = masterName
+                  }
+                );
+              }
+            }
+            context.Places.AddRange(placesMock);
+          }
         }
 
         await context.SaveChangesAsync();
 
         if (!context.Events.Any())
         {
-          var eventsNames = new List<string> {
-            "Final Copa América ",
-            "Semi Final Copa América ",
-            "Love on tour - Harry Styles ",
-            "The Eras Tour - Taylor Swift "
-          };
-
-          var events = new List<Event>();
-          for (int i = 0; i < 20; i++)
+          var events = await httpClient.GetFromJsonAsync<List<Event>>(s3URL + "events.json");
+          if (events is not null)
           {
-            var iS = i.ToString();
-            var number = RandomNumberGenerator.GetInt32(3);
-            var quant = RandomNumberGenerator.GetInt32(10);
-            var place = await context.Places.FindAsync(quant + 1);
-            var type = await context.EventTypes.FindAsync(number + 1);
-            if (place is not null && type is not null)
+            foreach (var item in events)
             {
-              var startAt = DateTime.UtcNow.AddDays(i + 5);
-              events.Add(
-                new Event
-                {
-                  Name = eventsNames[number] + iS,
-                  Type = type,
-                  Schedule = new EventSchedule
-                  {
-                    Place = place,
-                    StartAt = startAt,
-                    EndAt = startAt.AddHours(number)
-                  },
-                  Contact = new EventContact
-                  {
-                    Email = eventsNames[number] + "jm.app.br",
-                    Phone = "47999999999"
-                  },
-                  CreatedBy = masterName,
-                  UpdatedBy = masterName
-                }
-              );
+              var place = await context.Places.FindAsync(item.Schedule.Place.Id);
+              var type = await context.EventTypes.FindAsync(item.Type.Id);
+              if (place is not null && type is not null)
+              {
+                var number = RandomNumberGenerator.GetInt32(3);
+                var quant = RandomNumberGenerator.GetInt32(10);
+
+                item.Id = 0;
+                item.Schedule.Id = 0;
+                item.Contact.Id = 0;
+                item.UpdatedBy = masterName;
+                item.CreatedBy = masterName;
+                item.Type = type;
+                item.Schedule.Place = place;
+
+                context.Events.Add(item);
+              }
             }
           }
-          context.Events.AddRange(events);
+          else
+          {
+            var eventsNames = new List<string> {
+              "Final Copa América ",
+              "Semi Final Copa América ",
+              "Love on tour - Harry Styles ",
+              "The Eras Tour - Taylor Swift "
+            };
+            var eventsMock = new List<Event>();
+            for (int i = 0; i < 20; i++)
+            {
+              var iS = i.ToString();
+              var number = RandomNumberGenerator.GetInt32(3);
+              var quant = RandomNumberGenerator.GetInt32(10);
+              var place = await context.Places.FindAsync(quant + 1);
+              var type = await context.EventTypes.FindAsync(number + 1);
+              if (place is not null && type is not null)
+              {
+                var startAt = DateTime.UtcNow.AddDays(i + 5);
+                eventsMock.Add(
+                  new Event
+                  {
+                    Name = eventsNames[number] + iS,
+                    Type = type,
+                    Schedule = new EventSchedule
+                    {
+                      Place = place,
+                      StartAt = startAt,
+                      EndAt = startAt.AddHours(number)
+                    },
+                    Contact = new EventContact
+                    {
+                      Email = eventsNames[number] + "jm.app.br",
+                      Phone = "47999999999"
+                    },
+                    CreatedBy = masterName,
+                    UpdatedBy = masterName
+                  }
+                );
+              }
+            }
+            context.Events.AddRange(eventsMock);
+          }
         }
 
         await context.SaveChangesAsync();

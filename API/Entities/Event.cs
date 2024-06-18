@@ -8,7 +8,7 @@ namespace API.Entities
     public EventSchedule Schedule { get; set; } = new();
     public EventContact Contact { get; set; } = new();
 
-    public void Update(EventRecordDTO dto, string updatedBy)
+    public void Update(EventRequest dto, string updatedBy)
     {
       Name = dto.Name;
       Schedule.StartAt = dto.Schedule.StartAt;

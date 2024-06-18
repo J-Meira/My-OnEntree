@@ -13,14 +13,14 @@ namespace API.Helpers
           options.MapFrom(source => source.State.Id));
       CreateMap<CityDTO, City>();
       CreateMap<User, UserDTO>();
-      CreateMap<PlaceRecordDTO, Place>();
-      CreateMap<PlaceRecordLocationDTO, PlaceLocation>();
+      CreateMap<PlaceRequest, Place>();
+      CreateMap<PlaceLocationRequest, PlaceLocation>();
       CreateMap<Place, PlaceDTO>();
       CreateMap<PlaceLocation, PlaceLocationDTO>()
         .IncludeMembers(x => x.City);
       CreateMap<City, PlaceLocationDTO>();
-      CreateMap<EventRecordDTO, Event>();
-      CreateMap<EventRecordScheduleDTO, EventSchedule>();
+      CreateMap<EventRequest, Event>();
+      CreateMap<EventScheduleRequest, EventSchedule>();
       CreateMap<Event, EventDTO>();
       CreateMap<EventSchedule, EventScheduleDTO>()
         .IncludeMembers(x => x.Place);

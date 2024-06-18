@@ -1,6 +1,6 @@
 namespace API.DTOs
 {
-  public class EventRecordScheduleDTO
+  public class EventScheduleRequest
   {
     public int Id { get; set; }
     public int PlaceId { get; set; } = new();

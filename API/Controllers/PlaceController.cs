@@ -20,7 +20,7 @@ namespace API.Controllers
     }
 
     [HttpPost("Create")]
-    public async Task<ActionResult> Create(PlaceRecordDTO dto)
+    public async Task<ActionResult> Create(PlaceRequest dto)
     {
       if (User.Identity is null || User.Identity.Name is null)
       {
@@ -50,7 +50,7 @@ namespace API.Controllers
     }
 
     [HttpPut("UpdateById/{id}")]
-    public async Task<ActionResult> UpdateById(PlaceRecordDTO dto, int id)
+    public async Task<ActionResult> UpdateById(PlaceRequest dto, int id)
     {
       if (User.Identity is null || User.Identity.Name is null)
       {

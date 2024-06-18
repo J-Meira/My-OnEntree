@@ -9,7 +9,7 @@ namespace API.Data.Repositories
     private readonly AppDbContext _context = context;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<TaskResult<int>> Create(EventRecordDTO dto, string userName)
+    public async Task<TaskResult<int>> Create(EventRequest dto, string userName)
     {
       if (!dto.IsValid)
       {
@@ -83,7 +83,7 @@ namespace API.Data.Repositories
         .FirstOrDefaultAsync();
     }
 
-    public async Task<TaskResult<int>> UpdateById(EventRecordDTO dto, int id, string userName)
+    public async Task<TaskResult<int>> UpdateById(EventRequest dto, int id, string userName)
     {
       var record = await _context.Events
         .Include(x => x.Schedule)

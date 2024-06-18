@@ -1,6 +1,6 @@
 namespace API.DTOs
 {
-  public class PlaceRecordLocationDTO
+  public class PlaceLocationRequest
   {
     public int Id { get; set; }
     public string PostalCode { get; set; } = "";

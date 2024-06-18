@@ -20,7 +20,7 @@ namespace API.Controllers
     }
 
     [HttpPost("Create")]
-    public async Task<ActionResult> Create(EventRecordDTO dto)
+    public async Task<ActionResult> Create(EventRequest dto)
     {
       if (User.Identity is null || User.Identity.Name is null)
       {
@@ -50,7 +50,7 @@ namespace API.Controllers
     }
 
     [HttpPut("UpdateById/{id}")]
-    public async Task<ActionResult> UpdateById(EventRecordDTO dto, int id)
+    public async Task<ActionResult> UpdateById(EventRequest dto, int id)
     {
       if (User.Identity is null || User.Identity.Name is null)
       {

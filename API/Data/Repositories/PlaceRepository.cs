@@ -8,7 +8,7 @@ namespace API.Data.Repositories
     private readonly AppDbContext _context = context;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<TaskResult<int>> Create(PlaceRecordDTO dto, string userName)
+    public async Task<TaskResult<int>> Create(PlaceRequest dto, string userName)
     {
       if (!dto.IsValid)
       {
@@ -77,7 +77,7 @@ namespace API.Data.Repositories
         .FirstOrDefaultAsync();
     }
 
-    public async Task<TaskResult<int>> UpdateById(PlaceRecordDTO dto, int id, string userName)
+    public async Task<TaskResult<int>> UpdateById(PlaceRequest dto, int id, string userName)
     {
       var record = await _context.Places
         .Include(x => x.Location)

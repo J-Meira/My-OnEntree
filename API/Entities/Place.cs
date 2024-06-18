@@ -12,7 +12,7 @@ namespace API.Entities
     public List<string> Gates { get; set; } = [];
     public List<string> Turnstiles { get; set; } = [];
 
-    public void Update(PlaceRecordDTO dto, string updatedBy)
+    public void Update(PlaceRequest dto, string updatedBy)
     {
       Name = dto.Name;
       Nickname = dto.Nickname;

@@ -1,3 +1,13 @@
+import { useEffect } from 'react';
+
+import { useAppDispatch } from '../../redux/hooks';
+import { signOut } from '../../redux/slices';
+
 export const SignOut = () => {
-  return <div>SignOut</div>;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(signOut());
+  }, [dispatch]);
+  return null;
 };

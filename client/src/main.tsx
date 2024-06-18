@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 import { store } from './redux/store';
 import { router } from './router';
 
-import 'dayjs/locale/pt-br';
+import './scss/index.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

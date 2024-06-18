@@ -16,6 +16,10 @@ const mapPrivateRoutes = (): RouteObject[] => {
   const valueReturn: RouteObject[] = [];
   privateRoutes.map((item) => {
     if (item.children) {
+      valueReturn.push({
+        path: item.path,
+        element: item.element,
+      });
       item.children.map((child) => {
         valueReturn.push({
           path: child.path,

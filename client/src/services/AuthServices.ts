@@ -14,7 +14,7 @@ export interface IAuth {
 
 const signIn = async (payload: ISignInData): Promise<IAuth | void> => {
   try {
-    const { data } = await api.post('/Auth/Sign-in', payload);
+    const { data } = await api.post('/Auth/SignIn', payload);
     if (data) return data;
     return;
   } catch (error) {

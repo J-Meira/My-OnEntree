@@ -1,0 +1,13 @@
+.card-home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  border-radius: 16px !important;
+}
+.card-home.success {
+  background-color: $success-support !important;
+}
+.card-home.error {
+  background-color: $error-support !important;
+}

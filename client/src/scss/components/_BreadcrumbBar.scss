@@ -1,0 +1,13 @@
+.header-bar {
+  position: relative;
+  padding: 0.7rem 0;
+  margin-bottom: 2rem;
+
+  .MuiBreadcrumbs-root {
+    width: 100%;
+    margin-bottom: 2rem;
+    .MuiLink-root {
+      text-decoration: none;
+    }
+  }
+}

@@ -64,7 +64,7 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.expiresIn = null;
 
-      router.navigate('/sign-in');
+      router.navigate('/login');
     },
     setAuth: (state, { payload }: PayloadAction<IAuth>) => {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;

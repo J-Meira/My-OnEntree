@@ -1,6 +1,8 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 
-import { Box, ScaleFade } from '@chakra-ui/react';
+import { Box, Paper } from '@mui/material';
+import { useAppSelector } from '../redux';
+import { ThemeSwitch } from '.';
 
 interface Props {
   children: ReactNode;
@@ -15,41 +17,38 @@ export const PublicContainer = ({
   size = 'sm',
   showLogo = true,
 }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setIsOpen(true);
-    return () => {
-      setIsOpen(false);
-    };
-
-    // eslint-disable-next-line
-  }, []);
-
+  const { backgroundColor, isDark } = useAppSelector(
+    (state) => state.system,
+  );
   return (
-    <Box className={'public-container scroll-y ' + className}>
+    <Paper
+      square
+      elevation={0}
+      sx={{ backgroundColor: backgroundColor }}
+      className={'public-container scroll-y ' + className}
+    >
       <Box className={'container-box container-box-' + size}>
         {showLogo && (
-          <ScaleFade initialScale={0.8} in={isOpen}>
-            <Box className='logo'>
-              <img src='/assets/logos/variation.svg' alt='Logo Sigep' />
-            </Box>
-          </ScaleFade>
-        )}
-        <ScaleFade initialScale={0.8} in={isOpen}>
-          <Box
-            className={'container-content'}
-            p='40px'
-            // color='white'
-            mt='4'
-            // bg='teal.500'
-            rounded='md'
-            shadow='md'
-          >
-            {children}
+          <Box className='logo'>
+            <img
+              src={`/assets/logos/variation${isDark ? '-dark' : ''}.svg`}
+              alt='Logo My OnEntrée'
+            />
           </Box>
-        </ScaleFade>
+        )}
+        <Paper elevation={4} className={'container-content'}>
+          {children}
+        </Paper>
       </Box>
-    </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 20,
+          left: 20,
+        }}
+      >
+        <ThemeSwitch />
+      </Box>
+    </Paper>
   );
 };

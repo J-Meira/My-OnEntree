@@ -1,3 +1,5 @@
+import { enqueueSnackbar } from 'notistack';
+
 export interface UseToastOptionsProps {
   autoHideDuration?: number | null;
   persist?: boolean;
@@ -6,7 +8,7 @@ export interface UseToastOptionsProps {
 }
 
 const basic = (msg: string, options?: UseToastOptionsProps) => {
-  return console.log(msg, {
+  return enqueueSnackbar(msg, {
     ...options,
     variant: 'default',
     key: options?.toastId,
@@ -14,7 +16,7 @@ const basic = (msg: string, options?: UseToastOptionsProps) => {
 };
 
 const error = (msg: string, options?: UseToastOptionsProps) => {
-  return console.log(msg, {
+  return enqueueSnackbar(msg, {
     ...options,
     variant: 'error',
     key: options?.toastId,
@@ -22,7 +24,7 @@ const error = (msg: string, options?: UseToastOptionsProps) => {
 };
 
 const info = (msg: string, options?: UseToastOptionsProps) => {
-  return console.log(msg, {
+  return enqueueSnackbar(msg, {
     ...options,
     variant: 'info',
     key: options?.toastId,
@@ -30,7 +32,7 @@ const info = (msg: string, options?: UseToastOptionsProps) => {
 };
 
 const success = (msg: string, options?: UseToastOptionsProps) => {
-  return console.log(msg, {
+  return enqueueSnackbar(msg, {
     ...options,
     variant: 'success',
     key: options?.toastId,
@@ -38,7 +40,7 @@ const success = (msg: string, options?: UseToastOptionsProps) => {
 };
 
 const warning = (msg: string, options?: UseToastOptionsProps) => {
-  return console.log(msg, {
+  return enqueueSnackbar(msg, {
     ...options,
     variant: 'warning',
     key: options?.toastId,

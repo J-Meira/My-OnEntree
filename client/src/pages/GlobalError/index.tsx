@@ -1,6 +1,6 @@
 import { FallbackProps, useErrorBoundary } from 'react-error-boundary';
 
-import { Button, Heading, Text } from '@chakra-ui/react';
+import { Button, Typography } from '@mui/material';
 
 import { PublicContainer } from '../../components';
 
@@ -8,16 +8,21 @@ export const GlobalError = ({ error }: FallbackProps) => {
   const { resetBoundary } = useErrorBoundary();
   return (
     <PublicContainer size='md'>
-      <Heading as='h2'>Ocorreu um error</Heading>
-      <Text fontSize='md'>
+      <Typography
+        sx={{ fontWeight: 600, fontSize: '2.2rem' }}
+        variant='h2'
+      >
+        Ocorreu um error
+      </Typography>
+      <Typography variant='body1'>
         <b>Detalhes: </b>
         {error.message}
-      </Text>
+      </Typography>
       <Button
-        color='primary'
-        mt={4}
+        color='secondary'
+        sx={{ mt: 4 }}
         onClick={resetBoundary}
-        colorScheme='whiteAlpha'
+        fullWidth
       >
         Tentar novamente
       </Button>

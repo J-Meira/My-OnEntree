@@ -18,12 +18,19 @@ interface IDialog {
 }
 
 interface ISystemState {
+  backgroundColor: string;
   dialog: IDialog;
+  isDark: boolean;
   pendingActions: string[];
   rowsPerPage: number;
 }
 
 const localRows = localStorage.getItem('SG_P_RP') || '5';
+const localIsDark = localStorage.getItem('SG_P_ID')
+  ? localStorage.getItem('SG_P_ID') === 'true'
+    ? true
+    : false
+  : window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const initialDialog: IDialog = {
   isOpen: false,
@@ -37,6 +44,8 @@ const initialDialog: IDialog = {
 
 const initialState: ISystemState = {
   dialog: initialDialog,
+  backgroundColor: localIsDark ? '#191E28' : '#EDF2F7',
+  isDark: localIsDark,
   pendingActions: [],
   rowsPerPage: JSON.parse(localRows),
 };
@@ -45,6 +54,12 @@ export const systemSlice = createSlice({
   name: 'system',
   initialState,
   reducers: {
+    handleTheme: (state) => {
+      const newValue = !state.isDark;
+      localStorage.setItem('SG_P_ID', JSON.stringify(newValue));
+      state.isDark = newValue;
+      state.backgroundColor = newValue ? '#191E28' : '#EDF2F7';
+    },
     handleRows: (state, { payload }: PayloadAction<number>) => {
       localStorage.setItem('SG_P_RP', JSON.stringify(payload));
       state.rowsPerPage = payload;
@@ -80,6 +95,7 @@ export const systemSlice = createSlice({
 export const {
   closeDialog,
   handleRows,
+  handleTheme,
   openDialog,
   removeLoading,
   setLoading,

@@ -1,0 +1,32 @@
+$primary: #ebf0f9;
+
+//collors
+$info: #6d99fb;
+$info-hover: #6d99fb;
+
+$success: #99c766;
+$success-support: #2f3b28;
+
+$warning: #f79e1b;
+$warning-support: #61461f;
+
+$error: #f6285f;
+$error-support: #461527;
+
+.scroll-y {
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: RGBA(48, 48, 48, 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $info;
+  }
+}

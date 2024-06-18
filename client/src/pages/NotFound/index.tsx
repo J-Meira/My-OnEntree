@@ -1,19 +1,25 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { Button, Heading, Text } from '@chakra-ui/react';
+import { Button, Typography } from '@mui/material';
+
 import { PublicContainer } from '../../components';
 
-export const NotFound = () => {
-  const navigate = useNavigate();
-  return (
-    <PublicContainer size='md'>
-      <Heading as='h2'>Não encontrado</Heading>
-      <Text variant='body1'>
-        Oops - Não encontramos o que você estava tentando acessar!
-      </Text>
-      <Button color='secondary' mt={4} onClick={() => navigate('/')}>
-        Voltar para o início
-      </Button>
-    </PublicContainer>
-  );
-};
+export const NotFound = () => (
+  <PublicContainer size='md'>
+    <Typography sx={{ fontWeight: 600, fontSize: '2.2rem' }} variant='h2'>
+      Não encontrado
+    </Typography>
+    <Typography variant='body1'>
+      Oops - Não encontramos o que você estava tentando acessar!
+    </Typography>
+    <Button
+      color='secondary'
+      sx={{ mt: 4 }}
+      component={Link}
+      to='/'
+      fullWidth
+    >
+      Voltar para o início
+    </Button>
+  </PublicContainer>
+);

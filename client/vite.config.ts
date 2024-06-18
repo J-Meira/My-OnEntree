@@ -24,7 +24,7 @@ export default defineConfig({
       manifest: {
         name: 'My OnEntrée',
         short_name: 'My OnEntrée',
-        description: 'Events control',
+        description: 'Sistema de controle de eventos',
         theme_color: '#333B49',
       },
 

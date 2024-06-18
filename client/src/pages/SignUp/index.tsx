@@ -69,6 +69,19 @@ export const SignUp = () => {
     });
   };
 
+  const keyCheck = (
+    e: React.KeyboardEvent<
+      | HTMLInputElement
+      | HTMLButtonElement
+      | HTMLDivElement
+      | HTMLTextAreaElement
+    >,
+  ) => {
+    if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+      formRef?.current?.handleSubmit();
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) navigate(state?.from || '/');
     // eslint-disable-next-line
@@ -104,6 +117,7 @@ export const SignUp = () => {
                   autoComplete='name'
                   autoFocus
                   required
+                  onKeyDown={keyCheck}
                   grid={{ lg: 12 }}
                 />
                 <Input
@@ -112,6 +126,7 @@ export const SignUp = () => {
                   autoComplete='email'
                   type='email'
                   required
+                  onKeyDown={keyCheck}
                   grid={{ lg: 12 }}
                 />
                 <Input
@@ -119,6 +134,7 @@ export const SignUp = () => {
                   name='userName'
                   autoComplete='userName'
                   required
+                  onKeyDown={keyCheck}
                   grid={{ lg: 12 }}
                 />
                 <Input
@@ -128,6 +144,7 @@ export const SignUp = () => {
                   label='Senha'
                   id='password'
                   required
+                  onKeyDown={keyCheck}
                   onChange={onPasswordChange}
                   grid={{ lg: 12 }}
                 />
@@ -166,7 +183,6 @@ export const SignUp = () => {
                     />
                   </List>
                 </Grid>
-
                 <Grid item xs={12}>
                   <Typography variant='caption'>
                     Já tem cadasto?

@@ -41,6 +41,8 @@ interface IIconProps {
   start?: boolean;
 }
 
+type Props = IInputProps & IIconProps;
+
 const defaultGrid: GridProps = {
   xs: 12,
   sm: 12,
@@ -132,13 +134,63 @@ const Password = ({
   );
 };
 
+const Icon = ({
+  action,
+  actionTitle,
+  helperText,
+  icon,
+  name,
+  readOnly,
+  start,
+  variant = 'outlined',
+  ...rest
+}: Omit<
+  Props,
+  'className' | 'grid' | 'noGrid' | 'model' | 'localControl'
+>) => {
+  const adornment = (
+    <InputAd
+      action={action}
+      actionTitle={actionTitle}
+      icon={icon}
+      start={start}
+    />
+  );
+
+  return (
+    <TextField
+      {...rest}
+      error={!!helperText}
+      helperText={helperText}
+      id={name}
+      name={name}
+      fullWidth
+      InputProps={{
+        readOnly,
+        endAdornment: !start && adornment,
+        startAdornment: start && adornment,
+      }}
+      margin='normal'
+      size='small'
+      variant={variant}
+    />
+  );
+};
+
 const RenderInput = ({
   className,
   grid = defaultGrid,
   noGrid,
   model,
+
+  //icon
+  action,
+  actionTitle,
+  icon,
+  start,
+
   ...rest
-}: Omit<IInputProps, 'localControl'>) => {
+}: Omit<Props, 'localControl'>) => {
   const getGrid = {
     ...defaultGrid,
     ...grid,
@@ -170,17 +222,16 @@ const RenderInput = ({
       //       {...rest}
       //     />
       //   );
-      // case 'icon':
-      //   return (
-      //     <Icon
-      //       localControl={localControl}
-      //       action={action}
-      //       actionTitle={actionTitle}
-      //       icon={icon}
-      //       start={start}
-      //       {...rest}
-      //     />
-      //   );
+      case 'icon':
+        return (
+          <Icon
+            action={action}
+            actionTitle={actionTitle}
+            icon={icon}
+            start={start}
+            {...rest}
+          />
+        );
       // case 'mask':
       //   return (
       //     <Mask
@@ -256,7 +307,7 @@ export const Input = ({
   onBlur,
   onChange,
   ...rest
-}: IInputProps) => {
+}: Props) => {
   return localControl ? (
     <RenderInput
       {...rest}

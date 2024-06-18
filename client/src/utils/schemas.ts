@@ -1,7 +1,7 @@
 import { object, string, number, ObjectSchema, mixed } from 'yup';
 import dayjs, { Dayjs } from 'dayjs';
 
-import { IFilters, ISignInData } from '../@types';
+import { IFilters, ISignInData, ISignUpData } from '../@types';
 import { msgsDict } from './functions';
 
 const dateSchema = (required?: boolean) =>
@@ -119,26 +119,26 @@ const dateSchema = (required?: boolean) =>
 //     },
 //   });
 
-// const passwordSchema = () =>
-//   string().test({
-//     name: 'password',
-//     skipAbsent: true,
-//     test(value, ctx) {
-//       if (
-//         !value ||
-//         !(
-//           value.length >= 10 &&
-//           value.match(/[a-z]/) &&
-//           value.match(/[A-Z]/) &&
-//           value.match(/\d+/) &&
-//           value.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,),.]/)
-//         )
-//       ) {
-//         return ctx.createError({ message: msgsDict('password') });
-//       }
-//       return true;
-//     },
-//   });
+const passwordSchema = () =>
+  string().test({
+    name: 'password',
+    skipAbsent: true,
+    test(value, ctx) {
+      if (
+        !value ||
+        !(
+          value.length >= 10 &&
+          value.match(/[a-z]/) &&
+          value.match(/[A-Z]/) &&
+          value.match(/\d+/) &&
+          value.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,),.]/)
+        )
+      ) {
+        return ctx.createError({ message: msgsDict('password') });
+      }
+      return true;
+    },
+  });
 
 // const documentSchema = (required?: boolean, type?: 'cpf' | 'cnpj') =>
 //   string().test({
@@ -165,6 +165,13 @@ const dateSchema = (required?: boolean) =>
 export const signInSchema: ObjectSchema<ISignInData> = object({
   userName: string().required(msgsDict()),
   password: string().required(msgsDict()),
+});
+
+export const signUpSchema: ObjectSchema<ISignUpData> = object({
+  name: string().min(3, msgsDict('min', 3)).required(msgsDict()),
+  email: string().email(msgsDict('email')).required(msgsDict()),
+  password: passwordSchema().required(msgsDict()),
+  userName: string().min(3, msgsDict('min', 5)).required(msgsDict()),
 });
 
 export const filtersSchema: ObjectSchema<IFilters> = object({

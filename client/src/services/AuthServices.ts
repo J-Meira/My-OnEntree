@@ -1,10 +1,6 @@
 import { api } from '.';
 
-import {
-  // IServiceResult,
-  ISignInData,
-  IUser,
-} from '../@types';
+import { IServiceResult, ISignInData, IUser } from '../@types';
 
 export interface IAuth {
   accessToken: string;
@@ -23,6 +19,28 @@ const signIn = async (payload: ISignInData): Promise<IAuth | void> => {
   }
 };
 
+const signUp = async (
+  payload: ISignUpData,
+): Promise<IServiceResult<null, ISignUpData>> => {
+  try {
+    const result = await api.post('/Auth/SignUp', payload);
+    if (result)
+      return {
+        success: true,
+        data: null,
+      };
+    return {
+      success: false,
+    };
+  } catch (errors: any) {
+    console.log(errors);
+    return {
+      success: false,
+      errors: errors.message ? {} : errors,
+    };
+  }
+};
+
 const refresh = async (): Promise<IAuth | void> => {
   try {
     const { data } = await api.post('/Auth/Refresh');
@@ -36,5 +54,6 @@ const refresh = async (): Promise<IAuth | void> => {
 
 export const authServices = {
   signIn,
+  signUp,
   refresh,
 };

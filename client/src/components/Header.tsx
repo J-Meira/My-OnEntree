@@ -55,7 +55,9 @@ export const Header = () => {
 
   const getAvatar = (label: string) => {
     const s = label.split(' ');
-    return s.length > 1 ? `${s[0][0]}${s[1][0]}` : `${s[0][0]}${s[0][1]}`;
+    const v =
+      s.length > 1 ? `${s[0][0]}${s[1][0]}` : `${s[0][0]}${s[0][1]}`;
+    return v.toUpperCase();
   };
 
   useEffect(() => {

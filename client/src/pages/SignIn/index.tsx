@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { Formik, FormikProps } from 'formik';
 
@@ -9,7 +9,7 @@ import { ISignInData } from '../../@types';
 import { signInSchema } from '../../utils/schemas';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getAuthenticated, signIn } from '../../redux/slices';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 export const SignIn = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export const SignIn = () => {
   return (
     <>
       <SEO title='My OnEntrée - Login' />
-      <PublicContainer className='sign-in'>
+      <PublicContainer>
         <Formik
           initialValues={{
             userName: '',
@@ -45,6 +45,11 @@ export const SignIn = () => {
           {({ handleSubmit }) => (
             <form noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
+                <Grid xs={12}>
+                  <Typography sx={{ fontSize: '1.4rem' }} variant='h2'>
+                    Login:
+                  </Typography>
+                </Grid>
                 <Input
                   label='Login'
                   name='userName'
@@ -63,7 +68,22 @@ export const SignIn = () => {
                   grid={{ lg: 12 }}
                 />
                 <Grid item xs={12}>
-                  <Button color='secondary' type='submit'>
+                  <Typography variant='caption'>
+                    Não tem cadasto?
+                    <br />
+                    <Typography
+                      component={Link}
+                      variant='caption'
+                      color='info.main'
+                      to='/cadastro'
+                    >
+                      Clique aqui
+                    </Typography>{' '}
+                    para se cadastrar.
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button sx={{ mt: 2 }} color='secondary' type='submit'>
                     Entrar
                   </Button>
                 </Grid>

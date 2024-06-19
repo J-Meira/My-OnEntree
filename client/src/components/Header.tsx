@@ -98,26 +98,27 @@ export const Header = () => {
               </Button>
             ))}
           </Box>
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Box sx={{ mr: 1 }} display='flex' alignItems='center'>
-              <Avatar
-                sx={{
-                  width: 32,
-                  height: 32,
-                  backgroundColor: 'info.light',
-                  fontSize: '0.8rem',
-                }}
-              >
-                {getAvatar(user?.name || 'usuário')}
-              </Avatar>
-              <Typography
-                sx={{ cursor: 'pointer', ml: 1 }}
-                onClick={openMenu}
-              >
-                {`Olá, ${user?.name || 'usuário'}`} <MdArrowDropDown />
-              </Typography>
-            </Box>
-            <ThemeSwitch />
+          <Box
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            display='flex'
+            alignItems='center'
+          >
+            <Avatar
+              sx={{
+                width: 32,
+                height: 32,
+                backgroundColor: 'info.light',
+                fontSize: '0.8rem',
+              }}
+            >
+              {getAvatar(user?.name || 'usuário')}
+            </Avatar>
+            <Typography
+              sx={{ cursor: 'pointer', ml: 1 }}
+              onClick={openMenu}
+            >
+              {`Olá, ${user?.name || 'usuário'}`} <MdArrowDropDown />
+            </Typography>
           </Box>
           <IconButton
             color='inherit'
@@ -137,7 +138,10 @@ export const Header = () => {
         open={anchorEl != null}
         onClose={() => setAnchorEl(null)}
       >
-        <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+        <MenuItem component={Link} to='/config'>
+          Configurações
+        </MenuItem>
+        <MenuItem onClick={handleSignOut}>Sair</MenuItem>
       </Menu>
       <Drawer open={isOpen} onClose={() => setIsOpen(false)}>
         <Box
@@ -176,6 +180,11 @@ export const Header = () => {
           </List>
           <Divider />
           <List>
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to='/config'>
+                <ListItemText color='inherit' primary='Configurações' />
+              </ListItemButton>
+            </ListItem>
             <ListItem disablePadding>
               <ListItemButton onClick={handleSignOut}>
                 <ListItemText color='inherit' primary='Sair' />

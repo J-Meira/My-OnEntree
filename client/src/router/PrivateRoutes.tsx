@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router-dom';
 
-import { Home, PlaceForm, PlaceList } from '../pages';
+import { Home, PlaceForm, PlaceList, Settings } from '../pages';
 
 export type IRoutesProps = Omit<RouteProps, 'children'> & {
   children?: IRoutesProps[];
@@ -35,5 +35,11 @@ export const privateRoutes: IRoutesProps[] = [
         element: <PlaceForm />,
       },
     ],
+  },
+  {
+    path: '/config',
+    name: 'Configurações',
+    main: 'Configurações',
+    element: <Settings />,
   },
 ];

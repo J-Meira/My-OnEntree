@@ -5,3 +5,4 @@ export * from './SignIn';
 export * from './SignOut';
 export * from './SignUp';
 export * from './Places';
+export * from './Settings';

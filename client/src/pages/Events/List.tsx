@@ -12,23 +12,24 @@ import {
   Pagination,
   SEO,
   TableActions,
+  TypeChip,
 } from '../../components';
 
-import { IElement, IPlace } from '../../@types';
+import { IElement, IEvent } from '../../@types';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import {
   clearDialog,
-  deletePlace,
-  getAllPlaces,
+  deleteEvent,
+  getAllEvents,
   openDialog,
 } from '../../redux/slices';
 import { dateToScreen } from '../../utils/functions';
 
-const initialElement: IElement<IPlace> = {
+const initialElement: IElement<IEvent> = {
   anchorEl: null,
 };
 
-export const PlaceList = () => {
+export const EventList = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isMobile = useMediaQuery('(max-width:899px)');
@@ -36,19 +37,19 @@ export const PlaceList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [orderBy, setOrderBy] = useState('');
-  const [element, setElement] = useState<IElement<IPlace>>(initialElement);
-  const [recordToDelete, setRecordToDelete] = useState<IPlace | undefined>(
+  const [element, setElement] = useState<IElement<IEvent>>(initialElement);
+  const [recordToDelete, setRecordToDelete] = useState<IEvent | undefined>(
     undefined,
   );
 
   const { rowsPerPage, dialog } = useAppSelector((state) => state.system);
   const { records, totalOfRecords } = useAppSelector(
-    (state) => state.places,
+    (state) => state.events,
   );
 
   const openActions = (
     event: React.MouseEvent<HTMLElement>,
-    row: IPlace,
+    row: IEvent,
   ) => {
     setElement({
       anchorEl: event.currentTarget,
@@ -58,18 +59,18 @@ export const PlaceList = () => {
 
   const closeAction = () => setElement(initialElement);
 
-  const editAction = (row: IPlace) => {
-    navigate(`/locais/editar/${row.id}`);
+  const editAction = (row: IEvent) => {
+    navigate(`/eventos/editar/${row.id}`);
   };
 
-  const deleteAction = (row: IPlace) => {
+  const deleteAction = (row: IEvent) => {
     setRecordToDelete(row);
     closeAction();
   };
 
   const getRecords = () => {
     dispatch(
-      getAllPlaces({
+      getAllEvents({
         limit: rowsPerPage,
         page: currentPage,
         searchTerm: searchTerm === '' ? null : searchTerm,
@@ -82,10 +83,10 @@ export const PlaceList = () => {
     if (
       recordToDelete &&
       !dialog.isOpen &&
-      dialog.return.origin === 'deletePlace'
+      dialog.return.origin === 'deleteEvent'
     ) {
       if (dialog.return.status) {
-        dispatch(deletePlace(recordToDelete.id, getRecords));
+        dispatch(deleteEvent(recordToDelete.id, getRecords));
       }
       setRecordToDelete(undefined);
       dispatch(clearDialog());
@@ -100,9 +101,9 @@ export const PlaceList = () => {
         openDialog({
           isOpen: true,
           cancel: true,
-          title: 'Apagar local',
-          message: `Você tem certeza que deseja apagar o local “${recordToDelete.name}”?`,
-          origin: 'deletePlace',
+          title: 'Apagar evento',
+          message: `Você tem certeza que deseja apagar o evento “${recordToDelete.name}”?`,
+          origin: 'deleteEvent',
           successLabel: 'Apagar',
           return: {},
         }),
@@ -128,17 +129,17 @@ export const PlaceList = () => {
 
   return (
     <>
-      <SEO title='My OnEntrée - Locais' />
+      <SEO title='My OnEntrée - Eventos' />
       <Container
         showHeader
-        subTitle='Confira a lista de todo os locais cadastrados'
+        subTitle='Confira a lista de todo os eventos cadastrados'
         hasCard
       >
         <ListActions
-          onAdd={() => navigate('/locais/adicionar')}
-          searchLabel='Pesquise por nome do local'
+          onAdd={() => navigate('/eventos/adicionar')}
+          searchLabel='Pesquise por nome do evento'
           onSearch={setSearchTerm}
-          addLabel='Adicionar local'
+          addLabel='Adicionar evento'
         />
         {searchTerm !== '' && (
           <Grid item xs={12}>
@@ -148,40 +149,41 @@ export const PlaceList = () => {
           </Grid>
         )}
         {totalOfRecords > 0 && (
-          <DataTable<IPlace>
+          <DataTable<IEvent>
             title='clients'
             showHeader
             onHandleOrder={setOrderBy}
             columns={[
               {
                 key: 'name',
-                label: 'Nome do Local',
+                label: 'Nome do Evento',
                 limit: isMobile ? 10 : 18,
                 isSortable: true,
               },
               {
-                key: 'location',
-                label: 'Endereço',
-                disablePadding: true,
-                render: (row) => row.location.address.slice(0, 30) + '...',
+                key: 'type',
+                label: 'Tipo',
+                isSortable: true,
+                render: (row) => <TypeChip type={row.type} />,
               },
               {
-                key: 'location',
-                label: 'Cidade e Estado',
+                key: 'schedule',
+                label: 'Local associado',
                 isSortable: true,
                 disablePadding: true,
-                render: (row) => row.location.city.name,
+                render: (row) =>
+                  row.schedule.place.name.slice(0, 10) + '...',
               },
               {
-                key: 'gates',
+                key: 'schedule',
                 label: 'Portões cadastrados',
-                render: (row) => row.gates.join(', '),
+                render: (row) => row.schedule.place.gates.join(', '),
               },
               {
                 key: 'updatedAt',
-                label: 'Atualização',
+                label: 'Data',
                 isSortable: true,
-                render: (row) => dateToScreen(row.updatedAt),
+                render: (row) => dateToScreen(row.schedule.startAt),
               },
               {
                 key: 'actions',

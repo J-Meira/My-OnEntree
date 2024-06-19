@@ -68,7 +68,7 @@ export const ListActions = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             value={searchTerm}
             grid={{
-              lg: 5,
+              lg: 6,
             }}
           />
           {filters && (

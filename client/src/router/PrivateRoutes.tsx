@@ -1,6 +1,13 @@
 import { RouteProps } from 'react-router-dom';
 
-import { Home, PlaceForm, PlaceList, Settings } from '../pages';
+import {
+  EventForm,
+  EventList,
+  Home,
+  PlaceForm,
+  PlaceList,
+  Settings,
+} from '../pages';
 
 export type IRoutesProps = Omit<RouteProps, 'children'> & {
   children?: IRoutesProps[];
@@ -15,6 +22,26 @@ export const privateRoutes: IRoutesProps[] = [
     name: 'Home',
     main: 'Home',
     element: <Home />,
+  },
+  {
+    path: '/eventos',
+    name: 'Eventos',
+    main: 'Eventos',
+    element: <EventList />,
+    children: [
+      {
+        path: '/eventos/adicionar',
+        name: 'Adicionar novo evento',
+        main: 'Eventos',
+        element: <EventForm />,
+      },
+      {
+        path: '/eventos/editar/:id',
+        name: 'Editar evento',
+        main: 'Eventos',
+        element: <EventForm />,
+      },
+    ],
   },
   {
     path: '/locais',

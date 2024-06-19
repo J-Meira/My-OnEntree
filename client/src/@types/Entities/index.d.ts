@@ -6,3 +6,5 @@ export * from './Place';
 export * from './PlaceLocation';
 export * from './Type';
 export * from './State';
+export * from './Event';
+export * from './Schedule';

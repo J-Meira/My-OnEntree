@@ -83,7 +83,7 @@ export const DataTable = <T extends object>({
     const newOrder = isAsc ? 'desc' : 'asc';
     setOrder(newOrder);
     setOrderBy(key);
-    onHandleOrder(`${order === 'desc' ? '-' : ''}${orderBy as string}`);
+    onHandleOrder(`${newOrder === 'desc' ? '-' : ''}${key as string}`);
   };
 
   const compressedString = (value: string, limit: number) => {

@@ -3,9 +3,11 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import {
   IContact,
+  IEventForm,
   IFilters,
   IPlaceForm,
   IPlaceLocationForm,
+  IScheduleForm,
   ISignInData,
   ISignUpData,
 } from '../@types';
@@ -195,6 +197,26 @@ export const placeSchema: ObjectSchema<IPlaceForm> = object({
     .of(string().required(msgsDict()))
     .min(1, msgsDict('minArray', 1))
     .required(msgsDict()),
+});
+
+export const scheduleSchema: ObjectSchema<IScheduleForm> = object({
+  id: number().required(msgsDict()),
+  placeId: number()
+    .min(1, msgsDict('unSelect'))
+    .required(msgsDict('select')),
+  startAt: dateSchema(true).required(msgsDict()),
+  duration: number()
+    .min(60, 'Deve ter pelo menos uma hora de duração')
+    .required(msgsDict()),
+});
+
+export const eventSchema: ObjectSchema<IEventForm> = object({
+  name: string().min(3, msgsDict('min', 3)).required(msgsDict()),
+  typeId: number()
+    .min(1, msgsDict('unSelect'))
+    .required(msgsDict('select')),
+  schedule: scheduleSchema,
+  contact: contactSchema,
 });
 
 export const filtersSchema: ObjectSchema<IFilters> = object({

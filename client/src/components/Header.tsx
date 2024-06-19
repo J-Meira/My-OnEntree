@@ -23,7 +23,6 @@ import { MdMenu, MdArrowDropDown } from 'react-icons/md';
 
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { signOut } from '../redux/slices';
-import { ThemeSwitch } from './ThemeSwitch';
 
 const links = [
   { link: '/', label: 'Home' },

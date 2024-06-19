@@ -1,3 +1,4 @@
 export * from './AuthSlice';
-export * from './SystemSlice';
+export * from './EventsSlice';
 export * from './PlacesSlice';
+export * from './SystemSlice';

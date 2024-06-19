@@ -1,0 +1,9 @@
+.form-actions {
+  display: flex;
+  .MuiButton-root {
+    min-width: 110px;
+    & + .MuiButton-root {
+      margin-left: 0.5rem;
+    }
+  }
+}

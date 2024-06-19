@@ -14,3 +14,4 @@ export * from './Pagination';
 export * from './TableActions';
 export * from './DialogBox';
 export * from './ListInput';
+export * from './TypeChip';

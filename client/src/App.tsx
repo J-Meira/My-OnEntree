@@ -15,7 +15,7 @@ import { ptBR as datePtBR } from '@mui/x-date-pickers/locales';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { Button, Loading, PWABadge } from './components';
+import { Button, DialogBox, Loading, PWABadge } from './components';
 
 import { GlobalError } from './pages';
 
@@ -84,6 +84,7 @@ export const App = () => {
           <ErrorBoundary FallbackComponent={GlobalError}>
             <HelmetProvider>
               <Outlet />
+              <DialogBox />
               <Loading />
               <PWABadge />
             </HelmetProvider>

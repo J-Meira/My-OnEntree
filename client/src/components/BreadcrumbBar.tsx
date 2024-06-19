@@ -24,8 +24,6 @@ export const BreadcrumbBar = ({ subTitle }: Props) => {
       setList([{ label: 'Home' }]);
     } else {
       const paths = pathname.split('/');
-      console.log(paths);
-
       if (paths.length === 2) {
         const route = privateRoutes.find((r) => r.path === pathname);
         if (route) {
@@ -35,8 +33,6 @@ export const BreadcrumbBar = ({ subTitle }: Props) => {
       } else {
         const route = privateRoutes.find((r) => r.path === '/' + paths[1]);
         if (route && route.children) {
-          console.log(route);
-
           const subRoute = route.children.find((r) =>
             r.path.includes('/' + paths[1] + '/' + paths[2]),
           );

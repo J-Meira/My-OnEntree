@@ -22,6 +22,7 @@ export const Layout = () => {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
       }}
+      className='scroll-y'
       square
       elevation={0}
     >

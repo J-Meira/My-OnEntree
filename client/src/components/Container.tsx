@@ -26,7 +26,6 @@ export const Container = ({
   const { isDark } = useAppSelector((state) => state.system);
   return (
     <MuiContainer
-      className='container scroll-y'
       maxWidth={size}
       sx={{
         paddingTop: 6,

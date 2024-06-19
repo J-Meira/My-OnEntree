@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { RootState } from '..';
+import { AppThunk, RootState } from '..';
+import { IList, IOption, IState } from '../../@types';
+import { locationServices } from '../../services';
 
 export interface IDialogReturn {
   origin?: string;
@@ -23,6 +25,7 @@ interface ISystemState {
   isDark: boolean;
   pendingActions: string[];
   rowsPerPage: number;
+  states: IOption[];
 }
 
 const localRows = localStorage.getItem('SG_P_RP') || '5';
@@ -48,6 +51,16 @@ const initialState: ISystemState = {
   isDark: localIsDark,
   pendingActions: [],
   rowsPerPage: JSON.parse(localRows),
+  states: [],
+};
+
+export const getAllStates = (): AppThunk => (dispatch) => {
+  dispatch(setLoading('getAllStates'));
+  locationServices.getAllStates().then((r) => {
+    dispatch(removeLoading('getAllStates'));
+
+    if (r) dispatch(systemSlice.actions.setStates(r));
+  });
 };
 
 export const systemSlice = createSlice({
@@ -76,6 +89,9 @@ export const systemSlice = createSlice({
         },
       };
     },
+    clearDialog: (state) => {
+      state.dialog = initialDialog;
+    },
     setLoading: (state, { payload }: PayloadAction<string>) => {
       state.pendingActions = [...state.pendingActions, payload];
     },
@@ -89,10 +105,17 @@ export const systemSlice = createSlice({
         state.pendingActions = [];
       }
     },
+    setStates: (state, { payload }: PayloadAction<IList<IState>>) => {
+      state.states = payload.records.map((r) => ({
+        value: r.id,
+        label: r.name,
+      }));
+    },
   },
 });
 
 export const {
+  clearDialog,
   closeDialog,
   handleRows,
   handleTheme,

@@ -6,14 +6,47 @@ import {
   IPlace,
   IPlaceForm,
   IServiceResult,
+  IType,
 } from '../@types';
 import { useToast } from '../utils/hooks';
+
+export const initialPlace: IPlaceForm = {
+  name: '',
+  nickname: '',
+  typeId: -1,
+  document: '',
+  location: {
+    id: 0,
+    postalCode: '',
+    cityId: -1,
+    address: '',
+    complement: '',
+  },
+  contact: {
+    id: 0,
+    email: '',
+    phone: '',
+  },
+  gates: [],
+  turnstiles: [],
+};
 
 const getAll = async (
   params: IGetAllParams,
 ): Promise<IList<IPlace> | void> => {
   try {
     const { data } = await api.get('/Place/GetAll', { params });
+    if (data) return data;
+    return;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};
+
+const getTypes = async (): Promise<IList<IType> | void> => {
+  try {
+    const { data } = await api.get('/PlaceType/GetAll');
     if (data) return data;
     return;
   } catch (error) {
@@ -82,7 +115,7 @@ const deleteById = async (id: number): Promise<boolean | void> => {
   try {
     const result = await api.delete(`/Place/DeleteById/${id}`);
     if (result) {
-      useToast.success('Produto excluido com sucesso');
+      useToast.success('Local excluido com sucesso');
       return true;
     }
     return;
@@ -94,6 +127,7 @@ const deleteById = async (id: number): Promise<boolean | void> => {
 
 export const placeServices = {
   getAll,
+  getTypes,
   getById,
   create,
   updateById,

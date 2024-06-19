@@ -80,3 +80,5 @@ api.interceptors.response.use(
 
 export { api };
 export * from './AuthServices';
+export * from './PlaceServices';
+export * from './LocationServices';

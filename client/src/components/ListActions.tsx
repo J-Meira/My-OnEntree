@@ -26,7 +26,7 @@ export const ListActions = ({
   addLabel,
   searchLabel,
 }: Props) => {
-  const { debounce } = useDebounce(300, true);
+  const { debounce } = useDebounce(300, false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 

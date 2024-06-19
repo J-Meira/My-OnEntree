@@ -1,16 +1,25 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { IGetAllParams, IList, IPlace } from '../../@types';
+import {
+  IGetAllParams,
+  IList,
+  IOption,
+  IPlace,
+  IType,
+} from '../../@types';
 import { placeServices } from '../../services';
 
 import { AppThunk } from '..';
 import { removeLoading, setLoading } from '.';
 
-interface IPlacesState extends IList<IPlace> {}
+interface IPlacesState extends IList<IPlace> {
+  types: IOption[];
+}
 
 const initialState: IPlacesState = {
   totalOfRecords: 0,
   records: [],
+  types: [],
 };
 
 export const getAllPlaces =
@@ -24,14 +33,23 @@ export const getAllPlaces =
     });
   };
 
+export const getAllPlacesTypes = (): AppThunk => (dispatch) => {
+  dispatch(setLoading('getAllPlaces'));
+  placeServices.getTypes().then((r) => {
+    dispatch(removeLoading('getAllPlaces'));
+
+    if (r) dispatch(placesSlice.actions.setTypes(r));
+  });
+};
+
 export const deletePlace =
-  (payload: number): AppThunk =>
+  (payload: number, callback: () => void): AppThunk =>
   (dispatch) => {
     dispatch(setLoading('deletePlace'));
     placeServices.deleteById(payload).then((r) => {
       dispatch(removeLoading('deletePlace'));
 
-      if (r) dispatch(placesSlice.actions.delete(payload));
+      if (r) callback();
     });
   };
 
@@ -43,8 +61,11 @@ export const placesSlice = createSlice({
       state.records = payload.records;
       state.totalOfRecords = payload.totalOfRecords;
     },
-    delete: (state, { payload }: PayloadAction<number>) => {
-      state.records = state.records.filter((r) => r.id !== payload);
+    setTypes: (state, { payload }: PayloadAction<IList<IType>>) => {
+      state.types = payload.records.map((r) => ({
+        value: r.id,
+        label: r.label,
+      }));
     },
   },
 });

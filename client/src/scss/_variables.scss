@@ -30,3 +30,20 @@ $error-support: #461527;
     background-color: $info;
   }
 }
+.scroll-x {
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: RGBA(48, 48, 48, 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $info;
+  }
+}

@@ -189,11 +189,11 @@ export const placeSchema: ObjectSchema<IPlaceForm> = object({
   contact: contactSchema,
   gates: array()
     .of(string().required(msgsDict()))
-    .min(1, msgsDict('minArray'))
+    .min(1, msgsDict('minArray', 1))
     .required(msgsDict()),
   turnstiles: array()
     .of(string().required(msgsDict()))
-    .min(1, msgsDict('minArray'))
+    .min(1, msgsDict('minArray', 1))
     .required(msgsDict()),
 });
 

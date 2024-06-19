@@ -60,7 +60,7 @@ api.interceptors.response.use(
         break;
       case 401:
         useToast.error('Sessão Expirada');
-        router.navigate('/sign-out');
+        router.navigate('/sair');
         break;
       case 404:
         useToast.error('Não encontrado');

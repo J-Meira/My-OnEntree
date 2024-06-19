@@ -10,6 +10,8 @@ namespace API.Extensions
         "-name" => query.OrderByDescending(p => p.Name),
         "location" => query.OrderBy(p => p.Location.City.Name),
         "-location" => query.OrderByDescending(p => p.Location.City.Name),
+        "createdAt" => query.OrderBy(p => p.CreatedAt),
+        "-createdAt" => query.OrderByDescending(p => p.CreatedAt),
         "updatedAt" => query.OrderBy(p => p.UpdatedAt),
         "-updatedAt" => query.OrderByDescending(p => p.UpdatedAt),
         _ => query.OrderBy(p => p.Id)

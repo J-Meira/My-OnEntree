@@ -51,6 +51,8 @@ namespace API.DTOs
         .IsGreaterThan(Gates, 0, "Gates", "Deve ter pelo menos uma entrada")
         .IsGreaterThan(Turnstiles, 0, "Turnstiles", "Deve ter pelo menos uma catraca");
 
+      if (!string.IsNullOrWhiteSpace(Nickname))
+        contract.IsGreaterOrEqualsThan(Nickname, 3, "Nickname", "Deve ter pelo menos 3 caracteres");
 
       if (!string.IsNullOrWhiteSpace(Document))
         contract.IsCnpj(Document, "Document", "CNPJ inválido");

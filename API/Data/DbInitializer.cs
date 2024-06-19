@@ -183,15 +183,26 @@ namespace API.Data
                 var number = RandomNumberGenerator.GetInt32(3);
                 var quant = RandomNumberGenerator.GetInt32(10);
 
-                item.Id = 0;
-                item.Schedule.Id = 0;
-                item.Contact.Id = 0;
-                item.UpdatedBy = masterName;
-                item.CreatedBy = masterName;
-                item.Type = type;
-                item.Schedule.Place = place;
+                var eventAdd = new Event
+                {
+                  Name = item.Name,
+                  Type = type,
+                  Schedule = new EventSchedule
+                  {
+                    Place = place,
+                    StartAt = item.Schedule.StartAt,
+                    EndAt = item.Schedule.EndAt,
+                  },
+                  Contact = new EventContact
+                  {
+                    Email = item.Contact.Email,
+                    Phone = item.Contact.Phone,
+                  },
+                  CreatedBy = masterName,
+                  UpdatedBy = masterName
+                };
 
-                context.Events.Add(item);
+                context.Events.Add(eventAdd);
               }
             }
           }

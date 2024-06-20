@@ -40,8 +40,8 @@ jobs:
       - name: Install depends
         run: |
           cd client
-          pnpm install --ignore-scripts --verbose --platform=linux --arch=x64
-          npm install --platform=linux --arch=x64 sharp
+          npm install --ignore-scripts=false --foreground-scripts --platform=linux --arch=x64 --verbose
+          pnpm install --ignore-scripts
 
       - name: Build client
         run: |

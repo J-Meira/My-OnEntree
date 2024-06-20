@@ -1,0 +1,57 @@
+on:
+  release:
+    types: [published]
+
+name: Docker
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@master
+
+      - name: Login Docker
+        uses: docker/login-action@master
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set env
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Make client envfile
+        run: |
+          cd client
+          cat > .env.production
+          echo "VITE_STORAGE_KEY=${{ secrets.STRIPE_P_KEY }}" >> .env.production
+          echo "$(<.env.production)"
+
+      - name: Setup Node
+        uses: actions/setup-node@master
+        with:
+          node-version: 20.11
+
+      - name: Install PNPM
+        run: npm install -g pnpm
+
+      - name: Install depends
+        run: |
+          pnpm install --ignore-scripts
+
+      - name: Build client
+        run: |
+          pnpm build
+
+      - name: Build and push API at current version
+        run: |
+          cd ..
+          docker build ./API -t ${{ vars.REPOSITORY_NAME }}:${{ env.TAG_NAME }}
+          docker push ${{ vars.REPOSITORY_NAME }}:${{ env.TAG_NAME }}
+
+      - name: Build and push API at latest version
+        run: |
+          docker build ./API -t ${{ vars.REPOSITORY_NAME }}:latest
+          docker push ${{ vars.REPOSITORY_NAME }}:latest

@@ -69,7 +69,7 @@ api.interceptors.response.use(
         useToast.error('You are not allowed to do that!');
         break;
       case 500:
-        // router.navigate('/server-error', { state: { error: data } });
+        useToast.error(msgsDict('network'));
         break;
       default:
         break;

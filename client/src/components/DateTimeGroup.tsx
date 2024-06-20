@@ -52,9 +52,7 @@ export const DateTimeGroup = ({
     helper.setTouched(true);
   };
 
-  const onChange = (value: Dayjs | null, type: 'date' | 'time') => {
-    console.log(type);
-    console.log(value);
+  const onChange = (value: Dayjs | null) => {
     field.onChange({ target: { name, value: value } });
   };
 
@@ -82,13 +80,11 @@ export const DateTimeGroup = ({
 
   return (
     <>
-      {/* <DemoContainer components={['DatePicker', 'TimeField']}> */}
       <Grid item className={dateClassName} {...getGrid(dateGrid)}>
-        {/* <DemoItem label='DateField'> */}
         <DatePicker
           {...dateProps}
           format='DD/MM/YYYY'
-          onChange={(value) => onChange(value, 'date')}
+          onChange={(value) => onChange(value)}
           value={field.value}
           label={dateLabel}
           timezone='UTC'
@@ -100,15 +96,13 @@ export const DateTimeGroup = ({
             },
           }}
         />
-        {/* </DemoItem> */}
       </Grid>
       <Grid item className={timeClassName} {...getGrid(timeGrid)}>
-        {/* <DemoItem label='TimeField'> */}
         <TimeField
           {...dateProps}
           value={field.value}
           timezone='UTC'
-          onChange={(value) => onChange(value, 'time')}
+          onChange={(value) => onChange(value)}
           label={timeLabel}
           ampm={false}
           slotProps={{
@@ -118,9 +112,7 @@ export const DateTimeGroup = ({
             },
           }}
         />
-        {/* </DemoItem> */}
       </Grid>
-      {/* </DemoContainer> */}
     </>
   );
 };

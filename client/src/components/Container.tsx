@@ -42,7 +42,6 @@ export const Container = ({
             borderRadius: '20px',
           }}
           elevation={4}
-          className='page'
         >
           <Grid container spacing={2}>
             {children}

@@ -36,7 +36,14 @@ export const PublicContainer = ({
             />
           </Box>
         )}
-        <Paper elevation={4} className={'container-content'}>
+        <Paper
+          elevation={4}
+          className={'container-content'}
+          sx={{
+            backgroundColor: isDark ? '#10141D' : undefined,
+            backgroundImage: isDark ? 'none' : undefined,
+          }}
+        >
           {children}
         </Paper>
       </Box>

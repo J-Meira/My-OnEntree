@@ -206,8 +206,8 @@ export const scheduleSchema: ObjectSchema<IScheduleForm> = object({
     .required(msgsDict('select')),
   startAt: dateSchema(true).required(msgsDict()),
   duration: number()
-    .min(1, 'Deve ter pelo menos "1" hora de duração')
-    .max(24, 'Deve ter no máximo "24" horas de duração')
+    .min(1, 'Deve ter pelo menos 1 hora de duração')
+    .max(24, 'Deve ter no máximo 24 horas de duração')
     .required(msgsDict()),
 });
 

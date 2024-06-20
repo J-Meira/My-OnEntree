@@ -68,10 +68,7 @@ export const authSlice = createSlice({
     },
     setAuth: (state, { payload }: PayloadAction<IAuth>) => {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const expiresIn = dayjs
-        .tz(payload.expiresIn, tz)
-        .utc()
-        .add(30, 'minutes');
+      const expiresIn = dayjs.tz(payload.expiresIn, tz).utc();
       const expiresInTime = dayjs(payload.expiresIn).toDate().getTime();
       localStorage.setItem('SG_EI_EP', JSON.stringify(expiresInTime));
       useCookies.set('SG_AT_EP', payload.accessToken, expiresIn.toDate());

@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { AppThunk, RootState } from '..';
-import { IList, IOption, IState } from '../../@types';
-import { locationServices } from '../../services';
+import { ILatest, IList, IOption, IState } from '../../@types';
+import { latestServices, locationServices } from '../../services';
 
 export interface IDialogReturn {
   origin?: string;
@@ -26,6 +26,7 @@ interface ISystemState {
   pendingActions: string[];
   rowsPerPage: number;
   states: IOption[];
+  latest?: ILatest;
 }
 
 const localRows = localStorage.getItem('SG_P_RP') || '5';
@@ -60,6 +61,15 @@ export const getAllStates = (): AppThunk => (dispatch) => {
     dispatch(removeLoading('getAllStates'));
 
     if (r) dispatch(systemSlice.actions.setStates(r));
+  });
+};
+
+export const getLatest = (): AppThunk => (dispatch) => {
+  dispatch(setLoading('getLatest'));
+  latestServices.get().then((r) => {
+    dispatch(removeLoading('getLatest'));
+
+    if (r) dispatch(systemSlice.actions.setLatest(r));
   });
 };
 
@@ -111,6 +121,12 @@ export const systemSlice = createSlice({
         label: r.name,
       }));
     },
+    setLatest: (state, { payload }: PayloadAction<ILatest>) => {
+      state.latest = payload;
+    },
+    clearLatest: (state) => {
+      state.latest = undefined;
+    },
   },
 });
 
@@ -122,6 +138,7 @@ export const {
   openDialog,
   removeLoading,
   setLoading,
+  clearLatest,
 } = systemSlice.actions;
 
 export const getLoading = (state: RootState): boolean =>

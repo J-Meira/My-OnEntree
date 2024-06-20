@@ -40,7 +40,7 @@ interface Props<T extends object> {
   title: string;
   showHeader?: boolean;
   uniqueCol?: string;
-  onHandleOrder: (order: string) => void;
+  onHandleOrder?: (order: string) => void;
 }
 
 const TableRow = styled(MuiTableRow)(({ theme }) => ({
@@ -59,6 +59,7 @@ const TableCell = styled(MuiTableCell)(() => ({
   },
   [`&.${tableCellClasses.body}`]: {
     border: 0,
+    height: '56px',
   },
 }));
 
@@ -83,7 +84,7 @@ export const DataTable = <T extends object>({
     const newOrder = isAsc ? 'desc' : 'asc';
     setOrder(newOrder);
     setOrderBy(key);
-    onHandleOrder(`${newOrder === 'desc' ? '-' : ''}${key as string}`);
+    onHandleOrder?.(`${newOrder === 'desc' ? '-' : ''}${key as string}`);
   };
 
   const compressedString = (value: string, limit: number) => {
@@ -105,7 +106,6 @@ export const DataTable = <T extends object>({
         <Table
           stickyHeader={tabHeight || maxHeight || minHeight ? true : false}
           aria-labelledby={`table-${title}`}
-          // size='small'
           aria-label={`table-${title}`}
         >
           {showHeader && (

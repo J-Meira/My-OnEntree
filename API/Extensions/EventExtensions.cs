@@ -2,7 +2,7 @@ namespace API.Extensions
 {
   public static class EventExtensions
   {
-    public static IQueryable<Event> Filter(this IQueryable<Event> query, GetAllParams getAllParams)
+    public static IQueryable<Event> Filter(this IQueryable<Event> query, GetAllEventsParams getAllParams)
     {
       query = getAllParams.OrderBy switch
       {
@@ -31,6 +31,11 @@ namespace API.Extensions
             .ToLower()
             .Contains(lCST)
           );
+      }
+
+      if (getAllParams.PlaceId is not null)
+      {
+        query = query.Where(x => x.Schedule.Place.Id == getAllParams.PlaceId);
       }
 
       if (getAllParams.Id is not null)

@@ -4,5 +4,6 @@ namespace API.DTOs
   {
     public DateTime? DateStart { get; set; }
     public DateTime? DateEnd { get; set; }
+    public int? PlaceId { get; set; }
   }
 }

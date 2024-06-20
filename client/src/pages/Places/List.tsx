@@ -149,7 +149,7 @@ export const PlaceList = () => {
         )}
         {totalOfRecords > 0 && (
           <DataTable<IPlace>
-            title='clients'
+            title='places'
             showHeader
             onHandleOrder={setOrderBy}
             columns={[

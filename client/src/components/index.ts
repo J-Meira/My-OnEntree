@@ -18,3 +18,4 @@ export * from './TypeChip';
 export * from './SearchCity';
 export * from './SearchPlace';
 export * from './DateTimeGroup';
+export * from './DatePicker';

@@ -19,6 +19,7 @@ import {
   setLoading,
   removeLoading,
   getAllEventsTypes,
+  clearLatest,
 } from '../../redux/slices';
 import { eventServices, initialEvent } from '../../services';
 import { eventMappers, msgsDict } from '../../utils/functions';
@@ -48,6 +49,7 @@ export const EventForm = () => {
         `Evento ${id ? 'editado' : 'adicionado'} com sucesso`,
       );
       backToList();
+      if (!id) dispatch(clearLatest());
     } else if (!result.success && result.errors) {
       let i = 0;
       Object.entries(result.errors).forEach(([key, value]) => {
@@ -156,7 +158,7 @@ export const EventForm = () => {
                 grid={{ lg: 6 }}
                 name='schedule.placeId'
                 initialSelected={initialPlace}
-                placeholder='Informe o local'
+                placeholder='Selecione um local'
               />
 
               <Grid item xs={12}>

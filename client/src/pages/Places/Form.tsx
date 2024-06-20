@@ -19,6 +19,7 @@ import {
   setLoading,
   removeLoading,
   getAllPlacesTypes,
+  clearLatest,
 } from '../../redux/slices';
 import { placeServices, initialPlace } from '../../services';
 import { placeMappers, msgsDict } from '../../utils/functions';
@@ -48,6 +49,7 @@ export const PlaceForm = () => {
         `Local ${id ? 'editado' : 'adicionado'} com sucesso`,
       );
       backToList();
+      if (!id) dispatch(clearLatest());
     } else if (!result.success && result.errors) {
       let i = 0;
       Object.entries(result.errors).forEach(([key, value]) => {

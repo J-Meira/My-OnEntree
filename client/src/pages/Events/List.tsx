@@ -8,14 +8,16 @@ import {
   Button,
   Container,
   DataTable,
+  DatePicker,
   ListActions,
   Pagination,
   SEO,
+  SearchPlace,
   TableActions,
   TypeChip,
 } from '../../components';
 
-import { IElement, IEvent } from '../../@types';
+import { IElement, IEvent, IFilters } from '../../@types';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import {
   clearDialog,
@@ -68,13 +70,18 @@ export const EventList = () => {
     closeAction();
   };
 
-  const getRecords = () => {
+  const getRecords = (filters?: IFilters) => {
     dispatch(
       getAllEvents({
         limit: rowsPerPage,
         page: currentPage,
         searchTerm: searchTerm === '' ? null : searchTerm,
         orderBy,
+        dateEnd: filters?.dateEnd ? filters.dateEnd.toISOString() : null,
+        dateStart: filters?.dateStart
+          ? filters.dateStart.toISOString()
+          : null,
+        placeId: filters?.id && filters.id > 0 ? filters.id : null,
       }),
     );
   };
@@ -140,6 +147,24 @@ export const EventList = () => {
           searchLabel='Pesquise por nome do evento'
           onSearch={setSearchTerm}
           addLabel='Adicionar evento'
+          onApplyFilters={getRecords}
+          filters={() => (
+            <>
+              <SearchPlace grid={{ lg: 4 }} name='id' />
+              <DatePicker
+                name='dateStart'
+                label='Data inicial'
+                showTodayButton
+                grid={{ lg: 4 }}
+              />
+              <DatePicker
+                name='dateEnd'
+                label='Data final'
+                showTodayButton
+                grid={{ lg: 4 }}
+              />
+            </>
+          )}
         />
         {searchTerm !== '' && (
           <Grid item xs={12}>
@@ -150,7 +175,7 @@ export const EventList = () => {
         )}
         {totalOfRecords > 0 && (
           <DataTable<IEvent>
-            title='clients'
+            title='events'
             showHeader
             onHandleOrder={setOrderBy}
             columns={[

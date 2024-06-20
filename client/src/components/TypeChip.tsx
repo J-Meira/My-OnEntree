@@ -24,6 +24,11 @@ export const TypeChip = ({ type }: Props) => (
   <Chip
     label={type.label}
     color={getColor(type.id)}
-    sx={{ borderRadius: '6px', fontWeight: 600 }}
+    sx={{
+      borderRadius: '6px',
+      fontWeight: 600,
+      height: 'auto',
+      padding: '0.15rem 0',
+    }}
   />
 );

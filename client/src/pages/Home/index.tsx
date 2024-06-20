@@ -3,9 +3,11 @@ import { Container, SEO } from '../../components';
 import { useAppSelector } from '../../redux/hooks';
 import { CardHome } from './Card';
 import { MdFestival, MdLocalActivity } from 'react-icons/md';
+import { Latest } from './Latest';
 
 export const Home = () => {
   const { user } = useAppSelector((state) => state.auth);
+  const { latest } = useAppSelector((state) => state.system);
   return (
     <>
       <SEO />
@@ -48,6 +50,9 @@ export const Home = () => {
               color='error'
             />
           </Grid>
+          {latest && (
+            <Latest events={latest.events} places={latest.places} />
+          )}
         </Grid>
       </Container>
     </>

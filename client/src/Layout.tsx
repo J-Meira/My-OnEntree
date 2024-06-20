@@ -7,15 +7,23 @@ import { Paper } from '@mui/material';
 import { Header } from './components';
 
 import { useAppDispatch, useAppSelector } from './redux/hooks';
-import { getLoading, refresh } from './redux/slices';
+import {
+  getAuthenticated,
+  getLatest,
+  getLoading,
+  refresh,
+} from './redux/slices';
 import { useToast } from './utils/hooks';
 
 export const Layout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { backgroundColor } = useAppSelector((state) => state.system);
+  const { backgroundColor, latest } = useAppSelector(
+    (state) => state.system,
+  );
   const { expiresIn } = useAppSelector((state) => state.auth);
+  const isAuthenticated = useAppSelector(getAuthenticated);
   const isLoading = useAppSelector(getLoading);
 
   useEffect(() => {
@@ -33,6 +41,12 @@ export const Layout = () => {
 
     // eslint-disable-next-line
   }, [isLoading]);
+
+  useEffect(() => {
+    if (isAuthenticated && !latest) dispatch(getLatest());
+
+    // eslint-disable-next-line
+  }, [isAuthenticated, latest]);
 
   return (
     <Paper

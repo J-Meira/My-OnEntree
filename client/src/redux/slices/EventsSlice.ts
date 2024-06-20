@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import {
-  IGetAllParams,
+  IGetAllEventsParams,
   IList,
   IOption,
   IEvent,
@@ -23,7 +23,7 @@ const initialState: IEventsState = {
 };
 
 export const getAllEvents =
-  (payload: IGetAllParams): AppThunk =>
+  (payload: IGetAllEventsParams): AppThunk =>
   (dispatch) => {
     dispatch(setLoading('getAllEvents'));
     eventServices.getAll(payload).then((r) => {

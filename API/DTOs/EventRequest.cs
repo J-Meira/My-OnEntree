@@ -31,7 +31,8 @@ namespace API.DTOs
         .IsGreaterThan(Schedule.PlaceId, 0, "Schedule.placeId", "Seleção inválida")
         .IsNotNull(Schedule.StartAt, "Schedule.startAt", "Preenchimento Obrigatório")
         .IsNotNull(Schedule.Duration, "Schedule.duration", "Preenchimento Obrigatório")
-        .IsGreaterThan(Schedule.Duration, 1, "Schedule.duration", "Deve ter pelo menos uma hora de duração")
+        .IsGreaterOrEqualsThan(Schedule.Duration, 1, "Schedule.duration", "Deve ter pelo menos 1 hora de duração")
+        .IsLowerOrEqualsThan(Schedule.Duration, 24, "Schedule.duration", "Deve ter pelo menos no máximo 24 horas de duração")
         .IsNotNullOrEmpty(Contact.Email, "Contact.email", "Preenchimento Obrigatório")
         .IsEmail(Contact.Email, "Contact.email", "Email Inválido");
 

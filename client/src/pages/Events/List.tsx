@@ -36,7 +36,7 @@ export const EventList = () => {
   const [totalOfPages, setTotalOfPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [orderBy, setOrderBy] = useState('');
+  const [orderBy, setOrderBy] = useState('name');
   const [element, setElement] = useState<IElement<IEvent>>(initialElement);
   const [recordToDelete, setRecordToDelete] = useState<IEvent | undefined>(
     undefined,

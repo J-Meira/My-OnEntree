@@ -7,9 +7,10 @@ import { Divider, Grid, Typography } from '@mui/material';
 import {
   Button,
   Container,
+  DateTimeGroup,
   Input,
-  ListInput,
   SEO,
+  SearchPlace,
 } from '../../components';
 
 import { IEventForm } from '../../@types';
@@ -23,7 +24,6 @@ import { eventServices, initialEvent } from '../../services';
 import { eventMappers, msgsDict } from '../../utils/functions';
 import { useToast } from '../../utils/hooks';
 import { eventSchema } from '../../utils/schemas';
-import { SearchCity } from '../../components/SearchCity';
 
 export const EventForm = () => {
   const navigate = useNavigate();
@@ -123,12 +123,6 @@ export const EventForm = () => {
                 placeholder='Informe o nome do evento'
               />
               <Input
-                label='Apelido'
-                grid={{ lg: 6 }}
-                name='nickname'
-                placeholder='Informe um apelido (caso exista)'
-              />
-              <Input
                 label='Selecione um tipo'
                 required
                 grid={{ lg: 6 }}
@@ -138,49 +132,33 @@ export const EventForm = () => {
                 menuOptions
                 defaultOption='Selecione um tipo'
               />
-              <Input
-                label='CNPJ'
-                model='mask'
-                maskModel='cnpj'
-                grid={{ lg: 6 }}
-                name='document'
-                placeholder='Informe um CNPJ (caso exista)'
+              <DateTimeGroup
+                name='schedule.startAt'
+                required
+                disablePast
+                timeGrid={{ lg: 6 }}
+                dateGrid={{ lg: 6 }}
+                dateLabel='Data do evento'
+                timeLabel='Horário do evento'
+                datePlaceholder='00/00/0000'
+                timePlaceholder='Adicione o horário do evento'
               />
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>Eventoização</Typography>
-              </Grid>
-              <SearchCity
+              <Input
+                required
+                label='Duração'
+                type='number'
+                grid={{ lg: 6 }}
+                name='schedule.duration'
+                placeholder='Informe a duração do evento'
+              />
+              <SearchPlace
                 required
                 grid={{ lg: 6 }}
-                name='location.cityId'
+                name='schedule.placeId'
                 initialSelected={initialPlace}
-                placeholder='Informe a cidade'
+                placeholder='Informe o local'
               />
-              <Input
-                required
-                label='CEP'
-                model='mask'
-                maskModel='postalCode'
-                grid={{ lg: 6 }}
-                name='location.postalCode'
-                placeholder='Informe o CEP'
-              />
-              <Input
-                required
-                label='Endereço'
-                grid={{ lg: 6 }}
-                name='location.address'
-                placeholder='Informe o endereço'
-              />
-              <Input
-                label='Complemento'
-                grid={{ lg: 6 }}
-                name='location.complement'
-                placeholder='Informe o complemento'
-              />
+
               <Grid item xs={12}>
                 <Divider />
               </Grid>
@@ -202,26 +180,6 @@ export const EventForm = () => {
                 grid={{ lg: 6 }}
                 name='contact.phone'
                 placeholder='Informe um telefone'
-              />
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>Cadastro de entradas e catracas</Typography>
-              </Grid>
-              <ListInput
-                label='Cadastre as entradas'
-                required
-                grid={{ lg: 6 }}
-                name='gates'
-                placeholder='Insira as entradas'
-              />
-              <ListInput
-                label='Cadastre as catracas'
-                required
-                grid={{ lg: 6 }}
-                name='turnstiles'
-                placeholder='Insira as catracas'
               />
               <Grid item xs={12}>
                 <Divider />
@@ -249,9 +207,6 @@ export const EventForm = () => {
                 >
                   {id ? 'Salvar' : 'Cadastrar'}
                 </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <pre>{JSON.stringify(formik, null, 2)}</pre>
               </Grid>
             </Container>
           </form>

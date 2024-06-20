@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useField } from 'formik';
+
 import {
   Button,
   Grid,
@@ -7,9 +10,9 @@ import {
   TextField,
   TextFieldProps,
 } from '@mui/material';
-import { useField } from 'formik';
-import { useState } from 'react';
 import { MdAdd, MdClose } from 'react-icons/md';
+
+import { defaultGrid } from './defaultGrid';
 
 type Props = TextFieldProps & {
   className?: string;
@@ -18,13 +21,8 @@ type Props = TextFieldProps & {
   readOnly?: boolean;
 };
 
-const defaultGrid: GridProps = {
-  xs: 12,
-  sm: 12,
-  lg: 8,
-};
-
 export const ListInput = ({
+  className,
   name,
   readOnly,
   grid = defaultGrid,
@@ -33,6 +31,7 @@ export const ListInput = ({
   const [field, meta, helper] = useField<string[]>(name);
   const { touched, error } = meta;
   const [value, setValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   const getGrid = {
     ...defaultGrid,
@@ -76,7 +75,7 @@ export const ListInput = ({
   };
 
   return (
-    <Grid item {...getGrid}>
+    <Grid item className={className} {...getGrid}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -90,11 +89,19 @@ export const ListInput = ({
             variant='outlined'
             error={touched && !!error}
             helperText={
-              touched && error ? error : 'Precione "Enter" para inserir'
+              touched && error
+                ? error
+                : isFocused
+                  ? 'Precione "Enter" para inserir'
+                  : undefined
             }
             id={name}
             name={name}
-            onBlur={() => helper.setTouched(true)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => {
+              helper.setTouched(true);
+              setIsFocused(false);
+            }}
             value={value}
             onKeyDown={keyCheck}
             onChange={(e) => {
@@ -134,7 +141,7 @@ export const ListInput = ({
             alignItems: 'center',
           }}
         >
-          {field.value.map((v) => (
+          {field.value?.map((v) => (
             <Button
               key={v}
               variant='contained'

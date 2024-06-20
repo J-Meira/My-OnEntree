@@ -18,6 +18,7 @@ import {
 } from 'react-icons/md';
 import { IOption } from '../@types';
 import { toMask } from '../utils/functions';
+import { defaultGrid } from './defaultGrid';
 
 export type IInputProps = TextFieldProps & {
   className?: string;
@@ -25,14 +26,7 @@ export type IInputProps = TextFieldProps & {
   localControl?: boolean;
   name: string;
   noGrid?: boolean;
-  model?:
-    | 'checkBox'
-    | 'icon'
-    | 'mask'
-    | 'number'
-    | 'password'
-    | 'radioGroup'
-    | 'select';
+  model?: 'icon' | 'mask' | 'password' | 'select';
   readOnly?: boolean;
 };
 
@@ -63,12 +57,6 @@ interface IMaskProps {
 }
 
 type Props = IInputProps & IIconProps & ISelectProps & IMaskProps;
-
-const defaultGrid: GridProps = {
-  xs: 12,
-  sm: 12,
-  lg: 8,
-};
 
 const InputAd = ({
   action,
@@ -314,18 +302,13 @@ const RenderInput = ({
   noGrid,
   model,
   maskModel,
-
-  //icon
   action,
   actionTitle,
   icon,
   start,
-
-  //select
   defaultOption,
   menuOptions,
   options,
-
   ...rest
 }: Omit<Props, 'localControl'>) => {
   const getGrid = {
@@ -336,8 +319,6 @@ const RenderInput = ({
 
   const render = (() => {
     switch (model) {
-      // case 'checkBox':
-      //   return <CheckBox localControl={localControl} {...rest} />;
       case 'icon':
         return (
           <Icon
@@ -350,21 +331,8 @@ const RenderInput = ({
         );
       case 'mask':
         return <Mask maskModel={maskModel} {...rest} />;
-      // case 'number':
-      //   return (
-      //     <Number localControl={localControl} decimal={decimal} {...rest} />
-      //   );
       case 'password':
         return <Password {...rest} />;
-      // case 'radioGroup':
-      //   return (
-      //     <RadioGroup
-      //       localControl={localControl}
-      //       rowDirection={rowDirection}
-      //       options={options}
-      //       {...rest}
-      //     />
-      //   );
       case 'select':
         return (
           <Select

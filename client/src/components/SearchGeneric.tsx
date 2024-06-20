@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useField, useFormikContext } from 'formik';
+
 import {
   Autocomplete,
   CircularProgress,
@@ -10,7 +11,9 @@ import {
   GridProps,
   Grid,
 } from '@mui/material';
+
 import { useDebounce } from '../utils/hooks';
+import { defaultGrid } from './defaultGrid';
 
 export interface ISearchGenericProps<T extends object, K extends keyof T> {
   icon?: ReactNode;
@@ -37,12 +40,6 @@ export interface ISearchGenericProps<T extends object, K extends keyof T> {
   noGrid?: boolean;
   placeholder?: string;
 }
-
-const defaultGrid: GridProps = {
-  xs: 12,
-  sm: 12,
-  lg: 8,
-};
 
 export const SearchGeneric = <T extends object, K extends keyof T>({
   autoFocus,

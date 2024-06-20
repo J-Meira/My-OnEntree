@@ -7,14 +7,14 @@ const toForm = (r: IPlace): IPlaceForm => ({
   typeId: r.type.id,
   document: toMask.cnpj(r.document),
   location: {
-    id: 0,
+    id: r.location.id,
     postalCode: toMask.postalCode(r.location.postalCode),
     cityId: r.location.city.id,
     address: r.location.address,
     complement: r.location.complement,
   },
   contact: {
-    id: 0,
+    id: r.contact.id,
     email: r.contact.email,
     phone: r.contact.phone ? toMask.phone(r.contact.phone) : '',
   },

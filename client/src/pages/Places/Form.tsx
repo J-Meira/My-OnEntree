@@ -10,6 +10,7 @@ import {
   Input,
   ListInput,
   SEO,
+  SearchCity,
 } from '../../components';
 
 import { IPlaceForm } from '../../@types';
@@ -23,7 +24,6 @@ import { placeServices, initialPlace } from '../../services';
 import { placeMappers, msgsDict } from '../../utils/functions';
 import { useToast } from '../../utils/hooks';
 import { placeSchema } from '../../utils/schemas';
-import { SearchCity } from '../../components/SearchCity';
 
 export const PlaceForm = () => {
   const navigate = useNavigate();
@@ -249,9 +249,6 @@ export const PlaceForm = () => {
                 >
                   {id ? 'Salvar' : 'Cadastrar'}
                 </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <pre>{JSON.stringify(formik, null, 2)}</pre>
               </Grid>
             </Container>
           </form>

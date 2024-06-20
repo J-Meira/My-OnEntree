@@ -1,6 +1,7 @@
 # My-OnEntrée - .Net C# 8.0 + React + TypeScript + Vite
 
 Start at: 06/12/2024 14:00:00 BRZ
+End at: 06/20/2024
 
 ### Docs:
 

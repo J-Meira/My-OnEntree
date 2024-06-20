@@ -10,12 +10,14 @@ namespace API.Extensions
         "-name" => query.OrderByDescending(p => p.Name),
         "type" => query.OrderBy(p => p.Type.Label),
         "-type" => query.OrderByDescending(p => p.Type.Label),
-        "schedule" => query.OrderBy(p => p.Schedule.Place.Name),
-        "-schedule" => query.OrderByDescending(p => p.Schedule.Place.Name),
+        "place" => query.OrderBy(p => p.Schedule.Place.Name),
+        "-place" => query.OrderByDescending(p => p.Schedule.Place.Name),
+        "startAt" => query.OrderBy(p => p.Schedule.StartAt),
+        "-startAt" => query.OrderByDescending(p => p.Schedule.StartAt),
         "createdAt" => query.OrderBy(p => p.CreatedAt),
         "-createdAt" => query.OrderByDescending(p => p.CreatedAt),
-        "updatedAt" => query.OrderBy(p => p.Schedule.StartAt),
-        "-updatedAt" => query.OrderByDescending(p => p.Schedule.StartAt),
+        "updatedAt" => query.OrderBy(p => p.UpdatedAt),
+        "-updatedAt" => query.OrderByDescending(p => p.UpdatedAt),
         _ => query.OrderBy(p => p.Id)
       };
 

@@ -157,7 +157,7 @@ export const PlaceList = () => {
                 key: 'name',
                 label: 'Nome do Local',
                 limit: isMobile ? 10 : 18,
-                isSortable: true,
+                sortKey: 'name',
               },
               {
                 key: 'location',
@@ -168,7 +168,7 @@ export const PlaceList = () => {
               {
                 key: 'location',
                 label: 'Cidade e Estado',
-                isSortable: true,
+                sortKey: 'city',
                 disablePadding: true,
                 render: (row) => row.location.city.name,
               },
@@ -180,7 +180,7 @@ export const PlaceList = () => {
               {
                 key: 'updatedAt',
                 label: 'Atualização',
-                isSortable: true,
+                sortKey: 'updatedAt',
                 render: (row) => dateToScreen(row.updatedAt),
               },
               {

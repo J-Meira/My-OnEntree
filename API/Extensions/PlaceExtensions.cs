@@ -8,6 +8,8 @@ namespace API.Extensions
       {
         "name" => query.OrderBy(p => p.Name),
         "-name" => query.OrderByDescending(p => p.Name),
+        "type" => query.OrderBy(p => p.Type.Label),
+        "-type" => query.OrderByDescending(p => p.Type.Label),
         "location" => query.OrderBy(p => p.Location.City.Name),
         "-location" => query.OrderByDescending(p => p.Location.City.Name),
         "createdAt" => query.OrderBy(p => p.CreatedAt),

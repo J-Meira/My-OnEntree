@@ -18,8 +18,8 @@ interface IColumn<T extends object> {
   align?: 'center' | 'inherit' | 'justify' | 'left' | 'right';
   className?: string;
   disablePadding?: boolean;
-  isSortable?: boolean;
   key: keyof T | 'actions';
+  sortKey?: string;
   label?: string;
   limit?: number;
   maxWidth?: number;
@@ -32,7 +32,7 @@ interface IColumn<T extends object> {
 interface Props<T extends object> {
   columns: IColumn<T>[];
   rows: T[];
-  defaultOrderBy: keyof T;
+  defaultOrderBy: string;
   defaultDesc?: boolean;
   maxHeight?: number;
   minHeight?: number;
@@ -75,10 +75,10 @@ export const DataTable = <T extends object>({
   uniqueCol,
   onHandleOrder,
 }: Props<T>) => {
-  const [orderBy, setOrderBy] = useState<keyof T>(defaultOrderBy);
+  const [orderBy, setOrderBy] = useState(defaultOrderBy);
   const [order, setOrder] = useState<IOrder>(defaultDesc ? 'desc' : 'asc');
 
-  const onRequestSort = (key: keyof T) => {
+  const onRequestSort = (key: string) => {
     const isAsc = orderBy === key && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
     setOrder(newOrder);
@@ -128,11 +128,13 @@ export const DataTable = <T extends object>({
                           : undefined
                       }
                     >
-                      {col.isSortable && col.key !== 'actions' ? (
+                      {col.sortKey && col.key !== 'actions' ? (
                         <TableSortLabel
-                          active={orderBy === col.key}
-                          direction={orderBy === col.key ? order : 'asc'}
-                          onClick={() => onRequestSort(col.key as keyof T)}
+                          active={orderBy === col.sortKey}
+                          direction={
+                            orderBy === col.sortKey ? order : 'asc'
+                          }
+                          onClick={() => onRequestSort(col.sortKey!)}
                         >
                           {col.label}
                         </TableSortLabel>

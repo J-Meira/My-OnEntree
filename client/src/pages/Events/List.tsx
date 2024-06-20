@@ -158,18 +158,18 @@ export const EventList = () => {
                 key: 'name',
                 label: 'Nome do Evento',
                 limit: isMobile ? 10 : 18,
-                isSortable: true,
+                sortKey: 'name',
               },
               {
                 key: 'type',
                 label: 'Tipo',
-                isSortable: true,
+                sortKey: 'type',
                 render: (row) => <TypeChip type={row.type} />,
               },
               {
                 key: 'schedule',
                 label: 'Local associado',
-                isSortable: true,
+                sortKey: 'place',
                 disablePadding: true,
                 render: (row) =>
                   row.schedule.place.name.slice(0, 10) + '...',
@@ -180,9 +180,9 @@ export const EventList = () => {
                 render: (row) => row.schedule.place.gates.join(', '),
               },
               {
-                key: 'updatedAt',
+                key: 'schedule',
                 label: 'Data',
-                isSortable: true,
+                sortKey: 'startAt',
                 render: (row) => dateToScreen(row.schedule.startAt),
               },
               {

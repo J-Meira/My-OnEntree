@@ -34,18 +34,15 @@ jobs:
         with:
           node-version: 20.11
 
-      - name: Install PNPM
-        run: npm install -g pnpm
-
       - name: Install depends
         run: |
           cd client
-          pnpm install --ignore-scripts
+          npm install --ignore-scripts
 
       - name: Build client
         run: |
           cd client
-          pnpm build
+          npm run build
 
       - name: Build and push API at current version
         run: |

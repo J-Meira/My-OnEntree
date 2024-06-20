@@ -1,11 +1,14 @@
-# My-OnEntrée - .Net C# 8.0 + React + TypeScript + Vite
+# My-OnEntrée: Fullstack Application (.Net C# 8.0 + React + TypeScript + Vite)
 
-Start at: 06/12/2024 14:00:00 BRZ
-End at: 06/20/2024
+Solution developed for the [Challenge](https://github.com/mb-data/Desafio-Node-Fullstack).
 
-### Docs:
+**Docs:**
 
-- [Interfaces;](https://www.figma.com/design/ztqsEQWF8BXskx8UerVztk/OnEntree---Desafio-Fullstack)
-- [Data Model;](https://miro.com/app/board/uXjVK8ejIG8=/?share_link_id=526548866895)
+- [Interfaces](https://www.figma.com/design/ztqsEQWF8BXskx8UerVztk/OnEntree---Desafio-Fullstack)
+- [Data Model](https://miro.com/app/board/uXjVK8ejIG8=/?share_link_id=526548866895)
+
+**Image:**
+
+- [Docker](https://hub.docker.com/repository/docker/jmeiradev/my_on_ontree)
 
 > Contact: [J.Meira](https://github.com/J-Meira)

@@ -26,7 +26,7 @@ jobs:
         run: |
           cd client
           cat > .env.production
-          echo "VITE_STORAGE_KEY=${{ secrets.STRIPE_P_KEY }}" >> .env.production
+          echo "VITE_STORAGE_KEY=${{ secrets.STORAGE_KEY }}" >> .env.production
           echo "$(<.env.production)"
 
       - name: Setup Node

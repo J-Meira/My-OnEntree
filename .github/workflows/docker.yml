@@ -39,10 +39,12 @@ jobs:
 
       - name: Install depends
         run: |
+          cd client
           pnpm install --ignore-scripts
 
       - name: Build client
         run: |
+          cd client
           pnpm build
 
       - name: Build and push API at current version

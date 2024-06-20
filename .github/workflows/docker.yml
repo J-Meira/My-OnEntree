@@ -43,11 +43,10 @@ jobs:
       - name: Build client
         run: |
           cd client
-          npm build
+          npm run build
 
       - name: Build and push API at current version
         run: |
-          cd ..
           docker build ./API -t ${{ vars.REPOSITORY_NAME }}:${{ env.TAG_NAME }}
           docker push ${{ vars.REPOSITORY_NAME }}:${{ env.TAG_NAME }}
 

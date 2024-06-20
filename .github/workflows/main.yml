@@ -2,11 +2,11 @@ on:
   release:
     types: [published]
 
-name: Docker
+name: Main
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  build-and-push:
+    name: Build and Push
     runs-on: ubuntu-latest
 
     steps:
@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: 20.11
 
-      - name: Install depends
+      - name: Install client dependencies
         run: |
           cd client
           npm install --ignore-scripts

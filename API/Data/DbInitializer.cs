@@ -78,7 +78,7 @@ namespace API.Data
       if (!context.EventTypes.Any())
       {
         var eventTypes = new List<EventType>{
-          new() { Label="Apresentação"},
+          new() { Label="Teatro"},
           new() { Label="Filme"},
           new() { Label="Futebol"},
           new() { Label="Show"},
@@ -255,7 +255,7 @@ namespace API.Data
       }
 
 
-      if (!userManager.Users.Any())
+      if (!userManager.Users.Any() && app.Environment.IsDevelopment())
       {
         var master = new User
         {

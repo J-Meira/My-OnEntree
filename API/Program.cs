@@ -1,4 +1,5 @@
 
+using API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
@@ -75,12 +76,17 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
-{
-  c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-}
+  {
+    c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
+  }
 );
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseCors(opt =>
 {
@@ -97,6 +103,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapFallbackToController("Index", "Fallback");
 
 try
 {

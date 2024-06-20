@@ -1,6 +1,11 @@
 import { api } from '.';
 
-import { IServiceResult, ISignInData, IUser } from '../@types';
+import {
+  IServiceResult,
+  ISignInData,
+  ISignUpData,
+  IUser,
+} from '../@types';
 
 export interface IAuth {
   accessToken: string;

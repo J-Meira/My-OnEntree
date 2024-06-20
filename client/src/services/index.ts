@@ -6,7 +6,9 @@ import { router } from '../router';
 import { msgsDict } from '../utils/functions';
 import { useCookies, useToast } from '../utils/hooks';
 
-const baseURL = import.meta.env.VITE_API_URL;
+const baseURL = import.meta.env.DEV
+  ? import.meta.env.VITE_API_URL
+  : '/api';
 
 const api = axios.create({
   baseURL: baseURL,
